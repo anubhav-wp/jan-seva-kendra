@@ -615,8 +615,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Dynamically update all elements with .lang-text
         document.querySelectorAll('.lang-text').forEach(el => {
             const translated = el.getAttribute(`data-${lang}`);
-            if (translated) {
-                el.textContent = translated;
+            if (translated !== null && translated !== undefined) {
+                if (translated.includes('<') && translated.includes('>')) {
+                    el.innerHTML = translated;
+                } else {
+                    el.textContent = translated;
+                }
             }
         });
     }

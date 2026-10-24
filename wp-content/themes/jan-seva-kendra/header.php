@@ -84,16 +84,16 @@ if (!defined('ABSPATH')) exit;
                     <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-link lang-text" data-hi="होम" data-en="Home">होम</a>
                 </li>
                 <li>
-                    <a href="<?php echo esc_url(home_url('/services/')); ?>" class="nav-link lang-text" data-hi="नागरिक सेवाएं" data-en="Services">नागरिक सेवाएं</a>
+                    <a href="<?php echo esc_url(home_url('/services/')); ?>" class="nav-link lang-text" data-hi="सेवाएं" data-en="Services">सेवाएं</a>
                 </li>
                 <li>
-                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="nav-link lang-text" data-hi="ऑनलाइन आवेदन" data-en="Apply Online">ऑनलाइन आवेदन</a>
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="nav-link lang-text" data-hi="ऑनलाइन आवेदन" data-en="Apply">ऑनलाइन आवेदन</a>
                 </li>
                 <li>
-                    <a href="<?php echo esc_url(home_url('/track/')); ?>" class="nav-link lang-text" data-hi="स्थिति जांचें" data-en="Track Status">स्थिति जांचें</a>
+                    <a href="<?php echo esc_url(home_url('/track/')); ?>" class="nav-link lang-text" data-hi="स्थिति जांचें" data-en="Track">स्थिति जांचें</a>
                 </li>
                 <li>
-                    <a href="<?php echo esc_url(home_url('/fees/')); ?>" class="nav-link lang-text" data-hi="शुल्क सूची" data-en="Fee Chart">शुल्क सूची</a>
+                    <a href="<?php echo esc_url(home_url('/fees/')); ?>" class="nav-link lang-text" data-hi="शुल्क सूची" data-en="Fees">शुल्क सूची</a>
                 </li>
                 <li>
                     <a href="<?php echo esc_url(home_url('/documents/')); ?>" class="nav-link lang-text" data-hi="दस्तावेज" data-en="Documents">दस्तावेज</a>
@@ -108,17 +108,6 @@ if (!defined('ABSPATH')) exit;
 
             <!-- Header Quick Actions -->
             <div class="header-actions">
-                <!-- Nav Language Switcher Button -->
-                <button type="button" class="btn btn-lang-nav" id="navLangBtn" aria-label="भाषा चुनें / Choose Language">
-                    <span>🌐</span>
-                    <strong id="navLangLabel">हिंदी</strong>
-                    <span class="lang-chevron">▼</span>
-                </button>
-
-                <a href="<?php echo esc_url(home_url('/track/')); ?>" class="btn btn-outline-nav">
-                    <span class="icon"><?php echo jsk_get_svg_icon('clock'); ?></span>
-                    <span class="lang-text" data-hi="स्थिति जांचें" data-en="Track Status">स्थिति जांचें</span>
-                </a>
                 <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-nav">
                     <span class="icon"><?php echo jsk_get_svg_icon('file-text'); ?></span>
                     <span class="lang-text" data-hi="आवेदन करें" data-en="Apply Now">आवेदन करें</span>
