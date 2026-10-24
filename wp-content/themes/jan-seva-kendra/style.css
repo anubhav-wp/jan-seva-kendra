@@ -1,0 +1,16 @@
+/*
+Theme Name: Jan Seva Kendra (जन सेवा केंद्र)
+Theme URI: http://wordpress.local
+Author: Jan Seva Kendra Digital Team
+Description: आधुनिक, द्रुतगामी और उच्च-प्रदर्शन जन सेवा केंद्र पोर्टल (High-performance WordPress theme for CSC / Jan Seva Kendra citizen services).
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 7.2
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: jan-seva-kendra
+Tags: custom, high-traffic, civic-tech, hindi, fast, responsive
+*/
+
+/* Core styles are loaded from assets/css/main.css for caching & optimization */
