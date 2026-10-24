@@ -227,11 +227,6 @@ button, input, select, textarea {
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
 
-.main-navbar .container {
-    max-width: 1440px;
-    width: 100%;
-}
-
 .navbar-inner {
     display: flex;
     justify-content: space-between;
@@ -279,46 +274,40 @@ button, input, select, textarea {
     display: none;
     list-style: none;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
     margin: 0;
     padding: 0;
     flex-wrap: nowrap;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 992px) {
     .nav-links {
         display: flex;
-        gap: 10px;
+        gap: 18px;
     }
 }
 
-@media (min-width: 1260px) {
+@media (min-width: 1200px) {
     .nav-links {
-        gap: 16px;
-    }
-}
-
-@media (min-width: 1400px) {
-    .nav-links {
-        gap: 22px;
+        gap: 26px;
     }
 }
 
 .nav-link {
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 700;
     color: #1E293B;
-    padding: 6px 6px;
+    padding: 6px 4px;
     position: relative;
     white-space: nowrap;
     display: inline-block;
     transition: var(--transition);
 }
 
-@media (min-width: 1260px) {
+@media (min-width: 1200px) {
     .nav-link {
-        font-size: 14.5px;
-        padding: 6px 8px;
+        font-size: 15px;
+        padding: 6px 6px;
     }
 }
 
@@ -369,7 +358,7 @@ button, input, select, textarea {
     display: none;
     background: linear-gradient(135deg, #15803D 0%, #166534 100%);
     color: #FFFFFF;
-    padding: 8px 16px;
+    padding: 9px 18px;
     font-size: 14px;
     font-weight: 700;
     border-radius: var(--radius-md);
@@ -426,7 +415,7 @@ button, input, select, textarea {
     cursor: pointer;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 992px) {
     .mobile-toggle {
         display: none;
     }

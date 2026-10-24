@@ -84,19 +84,10 @@ if (!defined('ABSPATH')) exit;
                     <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-link lang-text" data-hi="होम" data-en="Home">होम</a>
                 </li>
                 <li>
-                    <a href="<?php echo esc_url(home_url('/services/')); ?>" class="nav-link lang-text" data-hi="सेवाएं" data-en="Services">सेवाएं</a>
+                    <a href="<?php echo esc_url(home_url('/services/')); ?>" class="nav-link lang-text" data-hi="नागरिक सेवाएं" data-en="Services">नागरिक सेवाएं</a>
                 </li>
                 <li>
-                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="nav-link lang-text" data-hi="ऑनलाइन आवेदन" data-en="Apply">ऑनलाइन आवेदन</a>
-                </li>
-                <li>
-                    <a href="<?php echo esc_url(home_url('/track/')); ?>" class="nav-link lang-text" data-hi="स्थिति जांचें" data-en="Track">स्थिति जांचें</a>
-                </li>
-                <li>
-                    <a href="<?php echo esc_url(home_url('/fees/')); ?>" class="nav-link lang-text" data-hi="शुल्क सूची" data-en="Fees">शुल्क सूची</a>
-                </li>
-                <li>
-                    <a href="<?php echo esc_url(home_url('/documents/')); ?>" class="nav-link lang-text" data-hi="दस्तावेज" data-en="Documents">दस्तावेज</a>
+                    <a href="<?php echo esc_url(home_url('/track/')); ?>" class="nav-link lang-text" data-hi="स्थिति जांचें" data-en="Track Status">स्थिति जांचें</a>
                 </li>
                 <li>
                     <a href="<?php echo esc_url(home_url('/about/')); ?>" class="nav-link lang-text" data-hi="हमारा केंद्र" data-en="About Us">हमारा केंद्र</a>
