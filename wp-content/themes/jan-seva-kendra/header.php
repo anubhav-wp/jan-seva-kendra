@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) exit;
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<a class="skip-to-content" href="#main-content">मुख्य सामग्री पर जाएं</a>
+<a class="skip-to-content lang-text" data-hi="मुख्य सामग्री पर जाएं" data-en="Skip to main content" href="#main-content">मुख्य सामग्री पर जाएं</a>
 
 <!-- Top Government & Utility Header -->
 <header class="site-header">
@@ -30,12 +30,12 @@ if (!defined('ABSPATH')) exit;
                 <span class="portal-badge lang-text" data-hi="डिजिटल भारत (Digital India) अधिकृत नागरिक सुविधा केंद्र" data-en="Digital India Authorized Citizen Service Center">
                     डिजिटल भारत (Digital India) अधिकृत नागरिक सुविधा केंद्र
                 </span>
-                <span class="vle-info">सीएससी आईडी: <strong><?php echo esc_html(jsk_opt('csc_id')); ?></strong></span>
+                <span class="vle-info"><span class="lang-text" data-hi="सीएससी आईडी:" data-en="CSC ID:">सीएससी आईडी:</span> <strong><?php echo esc_html(jsk_opt('csc_id')); ?></strong></span>
             </div>
             <div class="top-bar-right">
                 <a href="tel:<?php echo esc_attr(jsk_opt('tollfree')); ?>" class="top-link">
                     <span class="icon"><?php echo jsk_get_svg_icon('phone'); ?></span>
-                    <span>टोल-फ्री: <?php echo esc_html(jsk_opt('tollfree')); ?></span>
+                    <span class="lang-text" data-hi="टोल-फ्री: <?php echo esc_attr(jsk_opt('tollfree')); ?>" data-en="Toll-Free: <?php echo esc_attr(jsk_opt('tollfree')); ?>">टोल-फ्री: <?php echo esc_html(jsk_opt('tollfree')); ?></span>
                 </a>
 
                 <!-- Language Switcher in Top Bar -->
@@ -112,9 +112,9 @@ if (!defined('ABSPATH')) exit;
                 <button class="drawer-close" id="drawerCloseBtn" aria-label="बंद करें">&times;</button>
             </div>
             <div class="drawer-lang-strip">
-                <span>भाषा / Language:</span>
+                <span class="lang-text" data-hi="भाषा / Language:" data-en="Language:">भाषा / Language:</span>
                 <button type="button" class="drawer-lang-btn" id="drawerLangBtn">
-                    <span>🌐</span> <strong id="drawerLangLabel">हिंदी</strong> (बदलें)
+                    <span>🌐</span> <strong id="drawerLangLabel">हिंदी</strong> <span class="lang-text" data-hi="(बदलें)" data-en="(Change)">(बदलें)</span>
                 </button>
             </div>
             <ul class="mobile-nav-list">
@@ -128,8 +128,8 @@ if (!defined('ABSPATH')) exit;
                 <li><a href="<?php echo esc_url(home_url('/contact/')); ?>" class="mobile-nav-link lang-text" data-hi="केंद्र का पता व संपर्क" data-en="Contact & Helpdesk">केंद्र का पता व संपर्क</a></li>
             </ul>
             <div class="drawer-footer">
-                <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary w-100 mb-2">तुरंत आवेदन करें</a>
-                <a href="https://wa.me/<?php echo esc_attr(jsk_opt('whatsapp')); ?>?text=नमस्ते,%20मुझे%20जन%20सेवा%20केंद्र%20की%20सेवाओं%20के%20बारे%20में%20जानकारी%20चाहिए" class="btn btn-whatsapp w-100" target="_blank" rel="noopener">व्हाट्सएप सहायता</a>
+                <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary w-100 mb-2 lang-text" data-hi="तुरंत आवेदन करें" data-en="Apply Now">तुरंत आवेदन करें</a>
+                <a href="https://wa.me/<?php echo esc_attr(jsk_opt('whatsapp')); ?>?text=नमस्ते,%20मुझे%20जन%20सेवा%20केंद्र%20की%20सेवाओं%20के%20बारे%20में%20जानकारी%20चाहिए" class="btn btn-whatsapp w-100 lang-text" data-hi="व्हाट्सएप सहायता" data-en="WhatsApp Help" target="_blank" rel="noopener">व्हाट्सएप सहायता</a>
             </div>
         </div>
         <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>

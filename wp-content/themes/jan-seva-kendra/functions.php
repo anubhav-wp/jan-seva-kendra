@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('JSK_VERSION', '1.0.5');
+define('JSK_VERSION', '1.0.6');
 define('JSK_THEME_DIR', get_template_directory());
 define('JSK_THEME_URI', get_template_directory_uri());
 
@@ -425,7 +425,110 @@ add_action('save_post_jsk_service', function() {
 });
 
 /**
- * Helper to fetch services
+ * Helper to get active user language preference from cookie
+ */
+function jsk_get_current_lang() {
+    if (isset($_COOKIE['jsk_user_lang']) && $_COOKIE['jsk_user_lang'] === 'en') {
+        return 'en';
+    }
+    return 'hi';
+}
+
+/**
+ * Service metadata translation dictionary
+ */
+function jsk_translate_service_meta($text, $type = 'general') {
+    static $map = [
+        // Category Slugs
+        'identity'    => 'Identity & Documents',
+        'certificate' => 'Certificates & Revenue',
+        'schemes'     => 'Govt Schemes & Pension',
+        'banking'     => 'Banking & Insurance (AEPS)',
+        'utility'     => 'Bills & Recharge',
+        'education'   => 'Education & Jobs',
+        'general'     => 'General Services',
+
+        // Badges
+        'लोकप्रिय'      => 'Popular',
+        'अति-आवश्यक'   => 'Essential',
+        'सरकारी'        => 'Govt Scheme',
+        'कल्याणकारी'    => 'Welfare',
+        'सुरक्षा'        => 'Insurance',
+        'सुविधा'        => 'Utility',
+        'रोजगार'        => 'Jobs/Recruitment',
+        'डिजिटल'        => 'Digital India',
+        'निशुल्क'       => 'Free',
+        'त्रुटिरहित'    => 'Verified',
+
+        // Fees
+        '₹50 सरकारी + सेवा शुल्क'      => '₹50 Govt + Service Fee',
+        '₹30 सरकारी + ₹30 केंद्र शुल्क' => '₹30 Govt + ₹30 Center Fee',
+        '₹107 सरकारी + ₹50 केंद्र शुल्क' => '₹107 Govt + ₹50 Center Fee',
+        'निशुल्क सरकारी + ₹30 केंद्र शुल्क' => 'Free Govt + ₹30 Center Fee',
+        'निशुल्क सरकारी + ₹40 सेवा शुल्क' => 'Free Govt + ₹40 Service Fee',
+        'निशुल्क सरकारी + ₹50 आवेदन शुल्क' => 'Free Govt + ₹50 Application Fee',
+        '₹15 सरकारी + ₹20 केंद्र शुल्क'  => '₹15 Govt + ₹20 Center Fee',
+        '₹50 से ₹100'                  => '₹50 to ₹100',
+        'निशुल्क (0 शुल्क)'            => 'Free (₹0 Fee)',
+        'पॉलिसी प्रीमियम अनुसार'       => 'As per Policy Premium',
+        'विभागीय परीक्षा शुल्क + ₹70 फॉर्म फीस' => 'Govt Exam Fee + ₹70 Form Fee',
+
+        // Times
+        '2 से 5 कार्य दिवस'    => '2 to 5 Working Days',
+        '3 से 5 कार्य दिवस'    => '3 to 5 Working Days',
+        '4 से 7 कार्य दिवस'    => '4 to 7 Working Days',
+        '7 से 15 कार्य दिवस'   => '7 to 15 Working Days',
+        '10 से 20 कार्य दिवस'  => '10 to 20 Working Days',
+        'तत्काल (Real-time)'   => 'Instant (Real-time)',
+        'तत्काल 5 मिनट में पॉलिसी' => 'Instant in 5 Minutes',
+        'तत्काल 2 मिनट में'    => 'Instant in 2 Minutes',
+        'सटीक एवं त्रुटिहीन फॉर्म' => 'Fast & Error-free Submission'
+    ];
+
+    if (isset($map[$text])) {
+        return $map[$text];
+    }
+    foreach ($map as $hi => $en) {
+        if (!empty($hi) && mb_strpos($text, $hi) !== false) {
+            return $en;
+        }
+    }
+    return $text;
+}
+
+/**
+ * Service Title Translation Helper
+ */
+function jsk_translate_service_title($title) {
+    static $title_map = [
+        'नया आधार कार्ड' => 'New Aadhaar Card & Biometric Update',
+        'पैन कार्ड'      => 'PAN Card Application & Correction',
+        'आय प्रमाण पत्र' => 'Income Certificate (Revenue Dept)',
+        'जाति प्रमाण पत्र' => 'Caste Certificate (SC/ST/OBC/EWS)',
+        'मूल निवास'      => 'Domicile / Resident Certificate',
+        'पीएम किसान'     => 'PM Kisan Samman Nidhi e-KYC',
+        'आयुष्मान'       => 'Ayushman Bharat ₹5 Lakh Golden Card',
+        'पेंशन'          => 'Old Age / Widow / Disability Pension',
+        'आधार एटीएम'     => 'Aadhaar ATM (AEPS) Cash Withdrawal',
+        'बिजली बिल'      => 'Electricity, Water & Gas Bill Payment',
+        'मतदाता'         => 'Voter ID Card (Election Commission)',
+        'ई-श्रम'         => 'e-Shram Card & Worker Registration',
+        'राशन कार्ड'     => 'Ration Card New & Unit Addition',
+        'ड्राइविंग'      => 'Driving License & Learner License',
+        'पासपोर्ट'       => 'Passport Seva Online Application',
+        'सरकारी नौकरी'   => 'Government Jobs Online Application',
+        'बीमा'           => 'Motor & Life Insurance Services'
+    ];
+    foreach ($title_map as $key => $en) {
+        if (mb_strpos($title, $key) !== false) {
+            return $en;
+        }
+    }
+    return $title;
+}
+
+/**
+ * Helper to fetch services with bilingual data
  */
 function jsk_fetch_and_format_services() {
     $query = new WP_Query([
@@ -446,17 +549,28 @@ function jsk_fetch_and_format_services() {
             $cat_slug = ($terms && !is_wp_error($terms)) ? $terms[0]->slug : 'general';
             $cat_name = ($terms && !is_wp_error($terms)) ? $terms[0]->name : 'सामान्य सेवाएं';
 
+            $raw_title = get_the_title();
+            $raw_fee   = get_post_meta($id, '_jsk_fee', true) ?: '₹50 सरकारी + सेवा शुल्क';
+            $raw_time  = get_post_meta($id, '_jsk_time', true) ?: '2 से 5 कार्य दिवस';
+            $raw_badge = get_post_meta($id, '_jsk_badge', true) ?: 'लोकप्रिय';
+            $raw_docs  = get_post_meta($id, '_jsk_docs', true) ?: 'आधार कार्ड, पासपोर्ट फोटो, मोबाइल नंबर';
+
             $services[] = [
                 'id'          => $id,
-                'title'       => get_the_title(),
+                'title'       => $raw_title,
+                'title_en'    => jsk_translate_service_title($raw_title),
                 'excerpt'     => get_the_excerpt() ?: wp_trim_words(get_the_content(), 18),
                 'category'    => $cat_slug,
                 'cat_name'    => $cat_name,
-                'documents'   => get_post_meta($id, '_jsk_docs', true) ?: 'आधार कार्ड, पासपोर्ट फोटो, मोबाइल नंबर',
-                'fee'         => get_post_meta($id, '_jsk_fee', true) ?: '₹50 सरकारी + सेवा शुल्क',
-                'time'        => get_post_meta($id, '_jsk_time', true) ?: '2 से 5 कार्य दिवस',
+                'cat_name_en' => jsk_translate_service_meta($cat_slug),
+                'documents'   => $raw_docs,
+                'fee'         => $raw_fee,
+                'fee_en'      => jsk_translate_service_meta($raw_fee),
+                'time'        => $raw_time,
+                'time_en'     => jsk_translate_service_meta($raw_time),
                 'icon'        => get_post_meta($id, '_jsk_icon', true) ?: 'document',
-                'badge'       => get_post_meta($id, '_jsk_badge', true) ?: 'लोकप्रिय',
+                'badge'       => $raw_badge,
+                'badge_en'    => jsk_translate_service_meta($raw_badge),
                 'permalink'   => get_permalink($id),
             ];
         }

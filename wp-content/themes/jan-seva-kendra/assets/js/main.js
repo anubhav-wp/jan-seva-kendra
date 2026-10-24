@@ -219,15 +219,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentModalServiceId = '';
     let currentModalServiceTitle = '';
+    let currentModalServiceData = null;
+
+    const DOC_DICTIONARY = {
+        'आधार कार्ड': 'Aadhaar Card',
+        'फोटो': 'Passport Photo',
+        'पासपोर्ट साइज फोटो': 'Passport Size Photo',
+        'स्वप्रमाणित घोषणा पत्र': 'Self-Declaration Form',
+        'राशन कार्ड': 'Ration Card',
+        'बिजली बिल': 'Electricity Bill',
+        'वोटर आईडी': 'Voter ID',
+        'वोटर कार्ड': 'Voter ID',
+        'पुराना जाति प्रमाण': 'Old Caste Certificate',
+        'वेतन पर्ची': 'Salary Slip',
+        'खतौनी': 'Land Record (Khatauni)',
+        'जमीन की खतौनी': 'Land Record (Khatauni)',
+        '10वीं अंकपत्र': '10th Marksheet',
+        'निवास प्रमाण': 'Domicile Certificate',
+        'बैंक पासबुक': 'Bank Passbook',
+        'हस्ताक्षर': 'Signature',
+        'पैन कार्ड': 'PAN Card',
+        'बायोमेट्रिक': 'Biometric e-KYC',
+        'मोबाइल नंबर': 'Active Mobile Number'
+    };
 
     function openServiceModal(data) {
         if (!serviceModal) return;
+        currentModalServiceData = data;
 
-        document.getElementById('modalServiceTitle').textContent = data.title || 'सेवा विवरण';
-        document.getElementById('modalServiceFee').textContent = data.fee || '₹50';
-        document.getElementById('modalServiceTime').textContent = data.time || '3 से 5 दिन';
-        document.getElementById('modalServiceDesc').textContent = data.desc || '';
-        document.getElementById('modalServiceBadge').textContent = data.badge || 'सेवा विवरण';
+        const isEn = (selectedLang === 'en');
+        const title = (isEn && data.titleEn) ? data.titleEn : (data.title || (isEn ? 'Service Details' : 'सेवा विवरण'));
+        const fee = (isEn && data.feeEn) ? data.feeEn : (data.fee || '₹50');
+        const time = (isEn && data.timeEn) ? data.timeEn : (data.time || (isEn ? '3 to 5 Days' : '3 से 5 दिन'));
+        const badge = (isEn && data.badgeEn) ? data.badgeEn : (data.badge || (isEn ? 'Details' : 'सेवा विवरण'));
+
+        const modalTitle = document.getElementById('modalServiceTitle');
+        if (modalTitle) modalTitle.textContent = title;
+
+        const modalFee = document.getElementById('modalServiceFee');
+        if (modalFee) modalFee.textContent = fee;
+
+        const modalTime = document.getElementById('modalServiceTime');
+        if (modalTime) modalTime.textContent = time;
+
+        const modalDesc = document.getElementById('modalServiceDesc');
+        if (modalDesc) modalDesc.textContent = data.desc || '';
+
+        const modalBadge = document.getElementById('modalServiceBadge');
+        if (modalBadge) modalBadge.textContent = badge;
 
         // Required docs checklist
         const docsList = document.getElementById('modalServiceDocsList');
@@ -235,14 +274,19 @@ document.addEventListener('DOMContentLoaded', () => {
             docsList.innerHTML = '';
             const docs = (data.docs || '').split(',');
             docs.forEach(doc => {
+                const trimmed = doc.trim();
+                let docLabel = trimmed;
+                if (isEn && DOC_DICTIONARY[trimmed]) {
+                    docLabel = DOC_DICTIONARY[trimmed];
+                }
                 const li = document.createElement('li');
-                li.innerHTML = `✓ ${doc.trim()}`;
+                li.innerHTML = `✓ ${docLabel}`;
                 docsList.appendChild(li);
             });
         }
 
         currentModalServiceId = data.id || '';
-        currentModalServiceTitle = data.title || '';
+        currentModalServiceTitle = title;
 
         serviceModal.classList.add('show');
         serviceModal.setAttribute('aria-hidden', 'false');
@@ -262,11 +306,15 @@ document.addEventListener('DOMContentLoaded', () => {
             openServiceModal({
                 id: btn.getAttribute('data-service-id'),
                 title: btn.getAttribute('data-title'),
+                titleEn: btn.getAttribute('data-title-en'),
                 fee: btn.getAttribute('data-fee'),
+                feeEn: btn.getAttribute('data-fee-en'),
                 time: btn.getAttribute('data-time'),
+                timeEn: btn.getAttribute('data-time-en'),
                 docs: btn.getAttribute('data-docs'),
                 desc: btn.getAttribute('data-desc'),
-                badge: btn.getAttribute('data-badge')
+                badge: btn.getAttribute('data-badge'),
+                badgeEn: btn.getAttribute('data-badge-en')
             });
         });
     });
@@ -507,8 +555,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let latestTrackingData = null;
+
+    const STATUS_MAP = {
+        'प्रक्रियाधीन': 'In Progress',
+        'स्वीकृत एवं जारी': 'Approved & Issued',
+        'दस्तावेज आवश्यक': 'Documents Pending',
+        'निरस्त': 'Rejected'
+    };
+
+    const TIMELINE_TITLE_MAP = {
+        'आवेदन प्राप्त हुआ': 'Application Received',
+        'दस्तावेज सत्यापन': 'Document Verification',
+        'अधिकारी जांच': 'Officer Verification',
+        'प्रमाण पत्र जारी': 'Certificate Issued'
+    };
+
     function renderTrackingResult(data) {
         if (!trackResultBox) return;
+        latestTrackingData = data;
+        const isEn = (selectedLang === 'en');
 
         document.getElementById('trackResId').textContent = data.tracking_id;
         document.getElementById('trackResName').textContent = data.applicant;
@@ -516,7 +582,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const badge = document.getElementById('trackResBadge');
         if (badge) {
-            badge.textContent = data.status_text;
+            const rawStatus = data.status_text || 'प्रक्रियाधीन';
+            badge.textContent = isEn ? (STATUS_MAP[rawStatus] || rawStatus) : rawStatus;
             badge.className = `status-badge ${data.badge || 'status-blue'}`;
         }
 
@@ -535,11 +602,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isCompleted) stateClass = 'completed';
                 else if (isActive) stateClass = 'active';
 
+                const rawTitle = step.title;
+                const translatedTitle = isEn ? (TIMELINE_TITLE_MAP[rawTitle] || rawTitle) : rawTitle;
+
                 const stepDiv = document.createElement('div');
                 stepDiv.className = `step-node ${stateClass}`;
                 stepDiv.innerHTML = `
                     <div class="node-circle">${isCompleted ? '✓' : stepNum}</div>
-                    <span class="node-title">${step.title}</span>
+                    <span class="node-title">${translatedTitle}</span>
                     <span class="node-desc">${step.desc}</span>
                 `;
                 stepsContainer.appendChild(stepDiv);
@@ -597,7 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       9. LANGUAGE PREFERENCE & FIRST-VISIT POPUP MODAL
+       9. LANGUAGE PREFERENCE & UNIVERSAL TRANSLATION ENGINE
        ========================================================================== */
     const languageModal = document.getElementById('languageModal');
     const langModalBackdrop = document.getElementById('langModalBackdrop');
@@ -613,9 +683,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let selectedLang = localStorage.getItem('jsk_user_lang') || 'hi';
 
+    const JSK_PLACEHOLDERS = {
+        heroSearchInput: {
+            hi: 'सेवा का नाम खोजें (उदा. आधार, पैन कार्ड, आय प्रमाण पत्र, पेंशन, बिजली बिल)...',
+            en: 'Search service name (e.g. Aadhaar, PAN Card, Income Certificate, Pension)...'
+        },
+        serviceSearchInput: {
+            hi: 'सेवा का नाम खोजें (उदा. आधार, जाति प्रमाण, पैन कार्ड, खतौनी)...',
+            en: 'Search service name (e.g. Aadhaar, Caste, PAN Card, Land Record)...'
+        },
+        trackRefInput: {
+            hi: 'संदर्भ नंबर (उदा. JSK-2026-AB12C) या 10 अंकों का मोबाइल दर्ज करें...',
+            en: 'Reference number (e.g. JSK-2026-AB12C) or 10-digit mobile number...'
+        },
+        applyName: {
+            hi: 'उदा. रमेश कुमार शर्मा',
+            en: 'e.g. Ramesh Kumar Sharma'
+        },
+        applyMobile: {
+            hi: 'उदा. 9876543210',
+            en: 'e.g. 9876543210'
+        },
+        applyVillage: {
+            hi: 'उदा. रामपुर / वार्ड संख्या 5',
+            en: 'e.g. Rampur / Ward No. 5'
+        },
+        applyDistrict: {
+            hi: 'उदा. मेरठ, उत्तर प्रदेश',
+            en: 'e.g. Meerut, Uttar Pradesh'
+        },
+        applyAadhaar: {
+            hi: 'XXXX XXXX 1234',
+            en: 'XXXX XXXX 1234'
+        },
+        applyNotes: {
+            hi: 'उदा. मुझे तत्काल प्रमाण पत्र की आवश्यकता है / मोबाइल नंबर लिंक है...',
+            en: 'e.g. Need certificate urgently / Mobile is linked...'
+        },
+        inqName: {
+            hi: 'उदा. अमित कुमार',
+            en: 'e.g. Amit Kumar'
+        },
+        inqMobile: {
+            hi: 'उदा. 9876543210',
+            en: 'e.g. 9876543210'
+        },
+        inqService: {
+            hi: 'उदा. नया पैन कार्ड / आय प्रमाण पत्र',
+            en: 'e.g. New PAN Card / Income Certificate'
+        },
+        inqMessage: {
+            hi: 'अपनी समस्या या आवश्यकता विस्तार से लिखें...',
+            en: 'Describe your query or requirement in detail...'
+        }
+    };
+
     function applyLanguage(lang) {
         selectedLang = lang;
         localStorage.setItem('jsk_user_lang', lang);
+
+        // Keep server-side PHP in sync for seamless page reloads and cross-page navigation
+        document.cookie = `jsk_user_lang=${lang}; path=/; max-age=31536000; SameSite=Lax`;
 
         document.documentElement.lang = lang;
         document.body.classList.remove('lang-hi', 'lang-en');
@@ -637,7 +765,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Dynamically update all elements with .lang-text
+        // 1. Dynamically update all elements with .lang-text
         document.querySelectorAll('.lang-text').forEach(el => {
             const translated = el.getAttribute(`data-${lang}`);
             if (translated !== null && translated !== undefined) {
@@ -648,6 +776,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        // 2. Dynamically update all elements with data-placeholder-hi / data-placeholder-en
+        document.querySelectorAll(`[data-placeholder-${lang}]`).forEach(el => {
+            const ph = el.getAttribute(`data-placeholder-${lang}`);
+            if (ph) el.placeholder = ph;
+        });
+
+        // 3. Fallback placeholder dictionary for all known form fields
+        Object.keys(JSK_PLACEHOLDERS).forEach(id => {
+            const el = document.getElementById(id);
+            if (el && JSK_PLACEHOLDERS[id][lang]) {
+                el.placeholder = JSK_PLACEHOLDERS[id][lang];
+            }
+        });
+
+        // 4. Update dropdown options in #applyServiceSelect
+        document.querySelectorAll('#applyServiceSelect').forEach(select => {
+            Array.from(select.options).forEach(opt => {
+                if (!opt.value) {
+                    opt.textContent = (lang === 'en') ? '-- Please Select a Service --' : '-- कृपया एक सेवा चुनें --';
+                } else {
+                    const titleEn = opt.getAttribute('data-title-en');
+                    const catEn = opt.getAttribute('data-cat-en');
+                    const titleHi = opt.getAttribute('data-title');
+                    const catHi = opt.getAttribute('data-cat');
+
+                    if (lang === 'en' && titleEn) {
+                        opt.textContent = `${titleEn}${catEn ? ` (${catEn})` : ''}`;
+                    } else if (titleHi) {
+                        opt.textContent = `${titleHi}${catHi ? ` (${catHi})` : ''}`;
+                    }
+                }
+            });
+        });
+
+        // 5. Re-render service details modal if currently open
+        if (serviceModal && serviceModal.classList.contains('show') && currentModalServiceData) {
+            openServiceModal(currentModalServiceData);
+        }
+
+        // 6. Re-render application tracking result if currently displayed
+        if (trackResultBox && trackResultBox.style.display !== 'none' && latestTrackingData) {
+            renderTrackingResult(latestTrackingData);
+        }
     }
 
     function openLanguageModal() {
