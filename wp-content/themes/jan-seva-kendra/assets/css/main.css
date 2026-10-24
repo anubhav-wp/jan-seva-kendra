@@ -157,14 +157,17 @@ button, input, select, textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 12px;
+    white-space: nowrap;
 }
 
 .top-bar-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    white-space: nowrap;
+    min-width: 0;
 }
 
 .flag-strip {
@@ -173,6 +176,7 @@ button, input, select, textarea {
     width: 24px;
     border-radius: 2px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 .flag-orange { background: #FF9933; width: 33.33%; }
 .flag-white { background: #FFFFFF; width: 33.33%; }
@@ -181,6 +185,15 @@ button, input, select, textarea {
 .portal-badge {
     font-weight: 600;
     color: #F8FAFC;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+    .portal-badge {
+        display: none;
+    }
 }
 
 .vle-info {
@@ -188,12 +201,16 @@ button, input, select, textarea {
     background: rgba(255,255,255,0.08);
     padding: 2px 8px;
     border-radius: var(--radius-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .top-bar-right {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .top-link {
@@ -201,6 +218,7 @@ button, input, select, textarea {
     display: flex;
     align-items: center;
     gap: 5px;
+    white-space: nowrap;
 }
 .top-link:hover {
     color: #FFFFFF;

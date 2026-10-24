@@ -37,12 +37,6 @@ if (!defined('ABSPATH')) exit;
                     <span class="icon"><?php echo jsk_get_svg_icon('phone'); ?></span>
                     <span>टोल-फ्री: <?php echo esc_html(jsk_opt('tollfree')); ?></span>
                 </a>
-                <span class="timing-badge">
-                    <span class="icon"><?php echo jsk_get_svg_icon('clock'); ?></span>
-                    <span class="lang-text" data-hi="<?php echo esc_attr(jsk_opt('timings_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('timings_en')); ?>">
-                        <?php echo esc_html(jsk_opt('timings_hi')); ?>
-                    </span>
-                </span>
 
                 <!-- Language Switcher in Top Bar -->
                 <button type="button" class="btn-lang-top" id="topLangBtn" aria-label="भाषा चुनें / Select Language">
