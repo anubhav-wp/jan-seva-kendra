@@ -805,3 +805,174 @@ function jsk_get_svg_icon($icon_name) {
 
     return $icons[$icon_name] ?? $icons['file-text'];
 }
+
+/* ==========================================================================
+   7. WP-ADMIN ENHANCEMENTS FOR CITIZEN APPLICATIONS & SERVICES
+   ========================================================================== */
+
+// 1. Custom Columns for Applications List
+add_filter('manage_jsk_application_posts_columns', function($columns) {
+    return [
+        'cb'             => '<input type="checkbox" />',
+        'title'          => 'ट्रैकिंग आईडी (Tracking ID)',
+        'applicant_name' => 'आवेदक का नाम',
+        'mobile'         => 'मोबाइल नंबर',
+        'service_name'   => 'चयनित सेवा',
+        'status'         => 'स्थिति (Status)',
+        'date'           => 'आवेदन दिनांक',
+    ];
+});
+
+add_action('manage_jsk_application_posts_custom_column', function($column, $post_id) {
+    switch ($column) {
+        case 'applicant_name':
+            echo esc_html(get_post_meta($post_id, '_jsk_name', true) ?: '-');
+            break;
+        case 'mobile':
+            $m = get_post_meta($post_id, '_jsk_mobile', true);
+            if ($m) {
+                echo '<a href="tel:' . esc_attr($m) . '"><strong>' . esc_html($m) . '</strong></a>';
+            } else {
+                echo '-';
+            }
+            break;
+        case 'service_name':
+            echo esc_html(get_post_meta($post_id, '_jsk_service_name', true) ?: '-');
+            break;
+        case 'status':
+            $st = get_post_meta($post_id, '_jsk_status', true) ?: 'submitted';
+            $colors = [
+                'submitted'   => ['bg' => '#DBEAFE', 'color' => '#1E40AF', 'label' => 'सबमिट (New)'],
+                'verified'    => ['bg' => '#FEF3C7', 'color' => '#92400E', 'label' => 'सत्यापित (Verified)'],
+                'in_progress' => ['bg' => '#F3E8FF', 'color' => '#6B21A8', 'label' => 'प्रक्रियाधीन (Processing)'],
+                'completed'   => ['bg' => '#DCFCE7', 'color' => '#15803D', 'label' => 'स्वीकृत (Completed)'],
+                'rejected'    => ['bg' => '#FEE2E2', 'color' => '#991B1B', 'label' => 'अस्वीकृत (Rejected)'],
+            ];
+            $c = $colors[$st] ?? $colors['submitted'];
+            echo '<span style="background:' . $c['bg'] . ';color:' . $c['color'] . ';padding:4px 10px;border-radius:12px;font-weight:700;font-size:12px;">' . esc_html($c['label']) . '</span>';
+            break;
+    }
+}, 10, 2);
+
+// 2. Meta Box for Application Status Management
+add_action('add_meta_boxes', function() {
+    add_meta_box(
+        'jsk_app_status_box',
+        'नागरिक आवेदन स्थिति व ऑपरेटर विवरण',
+        'jsk_render_app_status_box',
+        'jsk_application',
+        'normal',
+        'high'
+    );
+
+    add_meta_box(
+        'jsk_service_details_box',
+        'सेवा शुल्क एवं दस्तावेज विवरण',
+        'jsk_render_service_details_box',
+        'jsk_service',
+        'normal',
+        'high'
+    );
+});
+
+function jsk_render_app_status_box($post) {
+    wp_nonce_field('jsk_save_app_meta', 'jsk_app_nonce');
+    $status = get_post_meta($post->ID, '_jsk_status', true) ?: 'submitted';
+    $name   = get_post_meta($post->ID, '_jsk_name', true);
+    $mobile = get_post_meta($post->ID, '_jsk_mobile', true);
+    $service = get_post_meta($post->ID, '_jsk_service_name', true);
+    $village = get_post_meta($post->ID, '_jsk_village_city', true);
+    $district = get_post_meta($post->ID, '_jsk_district', true);
+    $remarks = get_post_meta($post->ID, '_jsk_operator_remarks', true);
+    ?>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
+        <p><strong>आवेदक नाम:</strong> <?php echo esc_html($name); ?></p>
+        <p><strong>मोबाइल:</strong> <a href="tel:<?php echo esc_attr($mobile); ?>"><?php echo esc_html($mobile); ?></a></p>
+        <p><strong>सेवा:</strong> <?php echo esc_html($service); ?></p>
+        <p><strong>स्थान:</strong> <?php echo esc_html("{$village}, {$district}"); ?></p>
+    </div>
+    <hr style="margin: 12px 0;">
+    <div style="margin-top:12px;">
+        <label for="jsk_status" style="font-weight:700; display:block; margin-bottom:6px;">आवेदन की वर्तमान स्थिति (Citizen Status):</label>
+        <select name="jsk_status" id="jsk_status" style="width:100%; max-width:320px; padding:6px 10px;">
+            <option value="submitted" <?php selected($status, 'submitted'); ?>>1. आवेदन प्राप्त हुआ (Submitted)</option>
+            <option value="verified" <?php selected($status, 'verified'); ?>>2. दस्तावेज सत्यापन पूर्ण (Verified)</option>
+            <option value="in_progress" <?php selected($status, 'in_progress'); ?>>3. विभागीय प्रक्रियाधीन (In Progress)</option>
+            <option value="completed" <?php selected($status, 'completed'); ?>>4. सेवा स्वीकृत एवं प्रमाण पत्र तैयार (Completed)</option>
+            <option value="rejected" <?php selected($status, 'rejected'); ?>>अस्वीकृत / त्रुटि सुधार आवश्यक (Rejected)</option>
+        </select>
+    </div>
+    <div style="margin-top:14px;">
+        <label for="jsk_operator_remarks" style="font-weight:700; display:block; margin-bottom:6px;">ऑपरेटर टिप्पणी / प्रमाण पत्र या रसीद क्रमांक:</label>
+        <textarea name="jsk_operator_remarks" id="jsk_operator_remarks" rows="3" style="width:100%; max-width:500px;"><?php echo esc_textarea($remarks); ?></textarea>
+    </div>
+    <?php
+}
+
+function jsk_render_service_details_box($post) {
+    wp_nonce_field('jsk_save_service_meta', 'jsk_service_nonce');
+    $fee   = get_post_meta($post->ID, '_jsk_fee', true) ?: '₹50 सरकारी + सेवा शुल्क';
+    $time  = get_post_meta($post->ID, '_jsk_time', true) ?: '2 से 5 कार्य दिवस';
+    $docs  = get_post_meta($post->ID, '_jsk_docs', true) ?: 'आधार कार्ड, पासपोर्ट फोटो, मोबाइल नंबर';
+    $badge = get_post_meta($post->ID, '_jsk_badge', true) ?: 'लोकप्रिय';
+    $icon  = get_post_meta($post->ID, '_jsk_icon', true) ?: 'file-text';
+    ?>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
+        <div>
+            <label style="font-weight:700; display:block; margin-bottom:4px;">सरकारी व केंद्र शुल्क (Fee):</label>
+            <input type="text" name="jsk_fee" value="<?php echo esc_attr($fee); ?>" style="width:100%;">
+        </div>
+        <div>
+            <label style="font-weight:700; display:block; margin-bottom:4px;">निस्तारण समय (TAT):</label>
+            <input type="text" name="jsk_time" value="<?php echo esc_attr($time); ?>" style="width:100%;">
+        </div>
+        <div>
+            <label style="font-weight:700; display:block; margin-bottom:4px;">लोकप्रियता बैज (Badge):</label>
+            <input type="text" name="jsk_badge" value="<?php echo esc_attr($badge); ?>" style="width:100%;">
+        </div>
+        <div>
+            <label style="font-weight:700; display:block; margin-bottom:4px;">आइकन नाम (SVG Icon Key):</label>
+            <input type="text" name="jsk_icon" value="<?php echo esc_attr($icon); ?>" style="width:100%;">
+        </div>
+    </div>
+    <div style="margin-top:14px;">
+        <label style="font-weight:700; display:block; margin-bottom:4px;">आवश्यक दस्तावेज (Required Documents, अल्पविराम से अलग करें):</label>
+        <textarea name="jsk_docs" rows="2" style="width:100%;"><?php echo esc_textarea($docs); ?></textarea>
+    </div>
+    <?php
+}
+
+// 3. Save Meta Box Data
+add_action('save_post', function($post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    // Application save
+    if (isset($_POST['jsk_app_nonce']) && wp_verify_nonce($_POST['jsk_app_nonce'], 'jsk_save_app_meta')) {
+        if (isset($_POST['jsk_status'])) {
+            update_post_meta($post_id, '_jsk_status', sanitize_text_field($_POST['jsk_status']));
+        }
+        if (isset($_POST['jsk_operator_remarks'])) {
+            update_post_meta($post_id, '_jsk_operator_remarks', sanitize_textarea_field($_POST['jsk_operator_remarks']));
+        }
+    }
+
+    // Service save
+    if (isset($_POST['jsk_service_nonce']) && wp_verify_nonce($_POST['jsk_service_nonce'], 'jsk_save_service_meta')) {
+        if (isset($_POST['jsk_fee'])) {
+            update_post_meta($post_id, '_jsk_fee', sanitize_text_field($_POST['jsk_fee']));
+        }
+        if (isset($_POST['jsk_time'])) {
+            update_post_meta($post_id, '_jsk_time', sanitize_text_field($_POST['jsk_time']));
+        }
+        if (isset($_POST['jsk_badge'])) {
+            update_post_meta($post_id, '_jsk_badge', sanitize_text_field($_POST['jsk_badge']));
+        }
+        if (isset($_POST['jsk_icon'])) {
+            update_post_meta($post_id, '_jsk_icon', sanitize_text_field($_POST['jsk_icon']));
+        }
+        if (isset($_POST['jsk_docs'])) {
+            update_post_meta($post_id, '_jsk_docs', sanitize_textarea_field($_POST['jsk_docs']));
+        }
+        delete_transient('jsk_all_services_cache');
+    }
+});

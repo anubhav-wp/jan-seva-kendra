@@ -167,6 +167,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Footer Links with category filter
+    document.querySelectorAll('.footer-links a[data-filter]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filter = link.getAttribute('data-filter');
+            const targetTab = document.querySelector(`.tab-btn[data-filter="${filter}"]`);
+            if (targetTab) {
+                targetTab.click();
+            }
+            const servicesSec = document.getElementById('services');
+            if (servicesSec) {
+                servicesSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
     /* ==========================================================================
        3. SERVICE DETAIL MODAL HANDLERS
        ========================================================================== */

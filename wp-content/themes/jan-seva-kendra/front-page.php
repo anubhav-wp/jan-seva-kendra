@@ -9,10 +9,10 @@ get_header();
 // Fetch all services
 $services = jsk_fetch_and_format_services();
 
-// Curated high quality citizen & digital service imagery
-$hero_img = 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=80'; // Customer service desk / digital assistance
-$csc_center_img = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80';
-$digital_india_img = 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80';
+// Authentic Jan Seva Kendra citizen & center imagery
+$hero_img = JSK_THEME_URI . '/assets/images/hero-service.jpg';
+$csc_center_img = JSK_THEME_URI . '/assets/images/center-storefront.jpg';
+$citizen_img = JSK_THEME_URI . '/assets/images/citizen-success.jpg';
 ?>
 
 <!-- 1. HERO SECTION -->
@@ -285,6 +285,14 @@ $digital_india_img = 'https://images.unsplash.com/photo-1522071820081-009f0129c7
                 <p class="apply-side-text">
                     आपको केंद्र पर लाइन में लगने की आवश्यकता नहीं है। नीचे दिया गया फॉर्म भरें, आपको तुरंत ट्रैकिंग आईडी मिलेगी और हमारा ऑपरेटर आपसे संपर्क करेगा।
                 </p>
+
+                <div class="citizen-success-card">
+                    <img src="<?php echo esc_url($citizen_img); ?>" alt="संतुष्ट नागरिक प्रमाण पत्र प्राप्त करते हुए" class="citizen-success-img" loading="lazy">
+                    <div class="citizen-success-overlay">
+                        <span class="badge-verified">✓ 100% अधिकृत सरकारी प्रमाण पत्र</span>
+                        <p class="citizen-success-text">गांव व शहर के 50,000+ नागरिकों का अटूट भरोसा</p>
+                    </div>
+                </div>
 
                 <div class="apply-steps-list">
                     <div class="step-card">
