@@ -9,9 +9,9 @@ if (!defined('ABSPATH')) exit;
 <!-- Official Important Government Portals Quick Links -->
 <section class="govt-portals-section">
     <div class="container">
-        <div class="section-badge-pill">राष्ट्रीय डिजिटल लिंक</div>
-        <h3 class="portals-title">प्रमुख आधिकारिक सरकारी ई-गवर्नेंस पोर्टल</h3>
-        <p class="portals-subtitle">नागरिक सीधे इन राष्ट्रीय पोर्टल्स पर भी आधिकारिक सेवाओं का सत्यापन कर सकते हैं</p>
+        <div class="section-badge-pill pill-light lang-text" data-hi="राष्ट्रीय डिजिटल लिंक" data-en="National Digital Links">राष्ट्रीय डिजिटल लिंक</div>
+        <h3 class="portals-title lang-text" data-hi="प्रमुख आधिकारिक सरकारी ई-गवर्नेंस पोर्टल" data-en="Major Official Government E-Governance Portals">प्रमुख आधिकारिक सरकारी ई-गवर्नेंस पोर्टल</h3>
+        <p class="portals-subtitle lang-text" data-hi="नागरिक सीधे इन राष्ट्रीय पोर्टल्स पर भी आधिकारिक सेवाओं का सत्यापन कर सकते हैं" data-en="Citizens can directly access and verify services on official national portals">नागरिक सीधे इन राष्ट्रीय पोर्टल्स पर भी आधिकारिक सेवाओं का सत्यापन कर सकते हैं</p>
         <div class="portals-grid">
             <a href="https://uidai.gov.in" target="_blank" rel="noopener" class="portal-card">
                 <span class="portal-tag">UIDAI</span>
@@ -72,56 +72,59 @@ if (!defined('ABSPATH')) exit;
                     </svg>
                 </div>
                 <div>
-                    <h4 class="footer-brand-title">जन सेवा केंद्र</h4>
+                    <h4 class="footer-brand-title lang-text" data-hi="<?php echo esc_attr(jsk_opt('portal_name_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('portal_name_en')); ?>">
+                        <?php echo esc_html(jsk_opt('portal_name_hi')); ?>
+                    </h4>
                     <p class="footer-brand-sub">कॉमन सर्विस सेंटर (CSC E-Governance)</p>
                 </div>
             </div>
-            <p class="footer-text">
-                नागरिकों को सरकारी, वित्तीय, सामाजिक सुरक्षा और शैक्षणिक सेवाओं का समयबद्ध, पारदर्शी और किफायती लाभ प्रदान करने वाला अधिकृत डिजिटल सेवा केंद्र।
+            <p class="footer-text lang-text" data-hi="<?php echo esc_attr(jsk_opt('footer_about_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('footer_about_en')); ?>">
+                <?php echo esc_html(jsk_opt('footer_about_hi')); ?>
             </p>
             <div class="trust-pill-group">
-                <span class="trust-badge">✓ 100% अधिकृत सीएससी</span>
+                <span class="trust-badge">✓ 100% अधिकृत सीएससी केंद्र</span>
                 <span class="trust-badge">✓ सुरक्षित बायोमेट्रिक प्रणाली</span>
                 <span class="trust-badge">✓ न्यूनतम सरकारी शुल्क</span>
             </div>
         </div>
 
-        <!-- Col 2: Quick Links -->
+        <!-- Col 2: Quick Links (Multi-Page Navigation) -->
         <div class="footer-col">
-            <h4 class="footer-col-title">मुख्य नागरिक सेवाएं</h4>
+            <h4 class="footer-col-title lang-text" data-hi="नागरिक सेवाएं" data-en="Citizen Services">नागरिक सेवाएं</h4>
             <ul class="footer-links">
-                <li><a href="#services" data-filter="identity">आधार एवं पैन कार्ड सेवाएं</a></li>
-                <li><a href="#services" data-filter="certificate">आय, जाति व निवास प्रमाण पत्र</a></li>
-                <li><a href="#services" data-filter="schemes">पीएम किसान एवं पेंशन योजनाएं</a></li>
-                <li><a href="#services" data-filter="schemes">आयुष्मान भारत ₹5 लाख कार्ड</a></li>
-                <li><a href="#services" data-filter="banking">आधार एटीएम (AEPS) नगद निकासी</a></li>
-                <li><a href="#services" data-filter="utility">बिजली, पानी व गैस बिल भुगतान</a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>">आधार एवं पैन कार्ड सेवाएं</a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>">आय, जाति व निवास प्रमाण पत्र</a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>">पीएम किसान एवं पेंशन योजनाएं</a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>">आयुष्मान भारत ₹5 लाख कार्ड</a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>">आधार एटीएम (AEPS) नगद निकासी</a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>">बिजली, पानी व गैस बिल भुगतान</a></li>
             </ul>
         </div>
 
-        <!-- Col 3: Guidelines -->
+        <!-- Col 3: Guidelines & Pages -->
         <div class="footer-col">
-            <h4 class="footer-col-title">नागरिक सहायता व दिशा-निर्देश</h4>
+            <h4 class="footer-col-title lang-text" data-hi="नागरिक सहायता व पोर्टल" data-en="Citizen Helpdesk & Pages">नागरिक सहायता व पोर्टल</h4>
             <ul class="footer-links">
-                <li><a href="#track-section">आवेदन की ताज़ा स्थिति जांचें</a></li>
-                <li><a href="#apply-form-section">ऑनलाइन सेवा आवेदन फॉर्म</a></li>
-                <li><a href="#fee-chart">सरकारी व केंद्र सेवा शुल्क दर सूची</a></li>
-                <li><a href="#documents-guide">आवश्यक दस्तावेज चेकलिस्ट</a></li>
-                <li><a href="#faq-section">अक्सर पूछे जाने वाले सवाल</a></li>
-                <li><a href="#center-info">केंद्र पर पहुंचने का मार्ग व समय</a></li>
+                <li><a href="<?php echo esc_url(home_url('/track/')); ?>">आवेदन की ताज़ा स्थिति जांचें</a></li>
+                <li><a href="<?php echo esc_url(home_url('/apply/')); ?>">ऑनलाइन सेवा आवेदन फॉर्म</a></li>
+                <li><a href="<?php echo esc_url(home_url('/fees/')); ?>">सरकारी व केंद्र शुल्क दर सूची</a></li>
+                <li><a href="<?php echo esc_url(home_url('/documents/')); ?>">आवश्यक दस्तावेज चेकलिस्ट</a></li>
+                <li><a href="<?php echo esc_url(home_url('/about/')); ?>">हमारे केंद्र के बारे में</a></li>
+                <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">केंद्र का पता एवं समय</a></li>
             </ul>
         </div>
 
         <!-- Col 4: Center Contact Info -->
         <div class="footer-col footer-contact-col" id="center-info">
-            <h4 class="footer-col-title">हमारा केंद्र एवं संपर्क</h4>
+            <h4 class="footer-col-title lang-text" data-hi="हमारा केंद्र एवं संपर्क" data-en="Center & Contact">हमारा केंद्र एवं संपर्क</h4>
             <div class="contact-card-box">
-                <p><strong>संचालक (VLE):</strong> राजेश कुमार शर्मा</p>
-                <p><strong>सीएससी आईडी:</strong> CSC-UP-984210</p>
-                <p><strong>पता:</strong> दुकान नं. 4, मुख्य बाजार, तहसील रोड, पोस्ट ऑफिस के सामने, जिला केंद्र</p>
-                <p><strong>हेल्पलाइन:</strong> <a href="tel:+919876543210">+91 98765 43210</a></p>
-                <p><strong>व्हाट्सएप:</strong> <a href="https://wa.me/919876543210?text=नमस्ते" target="_blank" rel="noopener">+91 98765 43210</a></p>
-                <p><strong>कार्य दिवस:</strong> सोमवार से शनिवार (प्रातः 8:00 - सायं 8:00)</p>
+                <p><strong>संचालक (VLE):</strong> <?php echo esc_html(jsk_opt('vle_name')); ?></p>
+                <p><strong>सीएससी आईडी:</strong> <?php echo esc_html(jsk_opt('csc_id')); ?></p>
+                <p><strong>पता:</strong> <?php echo esc_html(jsk_opt('address_hi')); ?></p>
+                <p><strong>हेल्पलाइन:</strong> <a href="tel:<?php echo esc_attr(jsk_opt('phone')); ?>"><?php echo esc_html(jsk_opt('phone')); ?></a></p>
+                <p><strong>टोल-फ्री:</strong> <a href="tel:<?php echo esc_attr(jsk_opt('tollfree')); ?>"><?php echo esc_html(jsk_opt('tollfree')); ?></a></p>
+                <p><strong>व्हाट्सएप:</strong> <a href="https://wa.me/<?php echo esc_attr(jsk_opt('whatsapp')); ?>?text=नमस्ते" target="_blank" rel="noopener">+<?php echo esc_html(jsk_opt('whatsapp')); ?></a></p>
+                <p><strong>कार्य दिवस:</strong> <?php echo esc_html(jsk_opt('timings_hi')); ?></p>
             </div>
         </div>
     </div>
@@ -130,10 +133,10 @@ if (!defined('ABSPATH')) exit;
     <div class="footer-bottom">
         <div class="container footer-bottom-inner">
             <p class="copyright-text">
-                © <?php echo date('Y'); ?> जन सेवा केंद्र (CSC Digital Portal). सर्वाधिकार सुरक्षित।
+                © <?php echo date('Y'); ?> <?php echo esc_html(jsk_opt('portal_name_hi')); ?> (CSC Digital Portal). सर्वाधिकार सुरक्षित।
             </p>
-            <p class="disclaimer-note">
-                अस्वीकरण (Disclaimer): यह जन सेवा केंद्र पोर्टल नागरिकों को सरकारी एवं डिजिटल सेवाओं के आवेदन में सहायता प्रदान करता है। सभी आधिकारिक निर्णय, प्रमाण पत्र जारी करना एवं अनुमोदन संबंधित सरकारी विभागों के अधिकार क्षेत्र में है।
+            <p class="disclaimer-note lang-text" data-hi="<?php echo esc_attr(jsk_opt('disclaimer_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('disclaimer_en')); ?>">
+                <?php echo esc_html(jsk_opt('disclaimer_hi')); ?>
             </p>
         </div>
     </div>
@@ -141,24 +144,61 @@ if (!defined('ABSPATH')) exit;
 
 <!-- Floating Quick Action Bar for Mobile Devices -->
 <div class="mobile-floating-bar" aria-label="त्वरित मोबाइल संपर्क">
-    <a href="tel:+919876543210" class="mobile-action-item call-action">
+    <a href="tel:<?php echo esc_attr(jsk_opt('phone')); ?>" class="mobile-action-item call-action">
         <span class="action-icon"><?php echo jsk_get_svg_icon('phone'); ?></span>
-        <span class="action-label">कॉल करें</span>
+        <span class="action-label lang-text" data-hi="कॉल करें" data-en="Call">कॉल करें</span>
     </a>
-    <a href="https://wa.me/919876543210?text=नमस्ते,%20मुझे%20जन%20सेवा%20केंद्र%20की%20सेवाओं%20के%20बारे%20में%20जानकारी%20चाहिए" target="_blank" rel="noopener" class="mobile-action-item whatsapp-action">
+    <a href="https://wa.me/<?php echo esc_attr(jsk_opt('whatsapp')); ?>?text=नमस्ते,%20मुझे%20जन%20सेवा%20केंद्र%20की%20सेवाओं%20के%20बारे%20में%20जानकारी%20चाहिए" target="_blank" rel="noopener" class="mobile-action-item whatsapp-action">
         <span class="action-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.97.529 1.831.813 2.796.814 3.183 0 5.769-2.587 5.77-5.767 0-3.181-2.587-5.768-5.77-5.768zm3.385 8.163c-.145.411-.842.766-1.168.809-.328.043-.75.062-2.378-.609-1.921-.793-3.161-2.736-3.256-2.863-.096-.127-.78-1.037-.78-1.977s.484-1.403.656-1.593c.172-.19.375-.238.5-.238.125 0 .25 0 .359.006.115.006.269-.044.421.32.156.376.532 1.3.578 1.395.047.095.078.206.016.333-.063.127-.094.206-.188.317-.094.111-.197.248-.281.333-.094.095-.192.198-.083.385.109.187.484.799 1.038 1.292.715.637 1.317.834 1.505.928.188.095.297.079.406-.047.109-.127.469-.547.594-.734.125-.19.25-.159.422-.095.172.063 1.094.516 1.282.609.188.094.313.141.359.222.047.079.047.458-.098.869z"/></svg>
         </span>
         <span class="action-label">व्हाट्सएप</span>
     </a>
-    <a href="#apply-form-section" class="mobile-action-item apply-action">
+    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="mobile-action-item apply-action">
         <span class="action-icon"><?php echo jsk_get_svg_icon('file-text'); ?></span>
-        <span class="action-label">आवेदन करें</span>
+        <span class="action-label lang-text" data-hi="आवेदन करें" data-en="Apply">आवेदन करें</span>
     </a>
-    <a href="#track-section" class="mobile-action-item track-action">
+    <a href="<?php echo esc_url(home_url('/track/')); ?>" class="mobile-action-item track-action">
         <span class="action-icon"><?php echo jsk_get_svg_icon('clock'); ?></span>
-        <span class="action-label">स्थिति जांचें</span>
+        <span class="action-label lang-text" data-hi="स्थिति जांचें" data-en="Track">स्थिति जांचें</span>
     </a>
+</div>
+
+<!-- ==========================================================================
+     LANGUAGE SELECTION POPUP MODAL (As Requested: Ask User to Choose Language)
+     ========================================================================== -->
+<div class="jsk-modal lang-modal" id="languageModal" aria-hidden="true" role="dialog" aria-labelledby="langModalTitle">
+    <div class="modal-backdrop" id="langModalBackdrop"></div>
+    <div class="modal-dialog lang-dialog">
+        <div class="lang-modal-header text-center">
+            <div class="lang-globe-icon">🌐</div>
+            <h3 class="modal-title" id="langModalTitle">अपनी पसंदीदा भाषा चुनें<br><small style="font-size:15px; color:#64748B; font-weight:600;">Choose Your Preferred Language</small></h3>
+            <p class="lang-modal-sub">कृपया पोर्टल का उपयोग करने के लिए अपनी भाषा चुनें / Select language to view portal</p>
+        </div>
+        <div class="modal-body">
+            <div class="lang-cards-grid">
+                <!-- Hindi Card -->
+                <button type="button" class="lang-choice-card active" data-lang="hi" id="chooseLangHi">
+                    <span class="lang-flag">🇮🇳</span>
+                    <strong class="lang-name">हिंदी (Hindi)</strong>
+                    <span class="lang-desc">सभी सरकारी सेवाएं, प्रमाण पत्र, स्थिति ट्रैकिंग और नागरिक सहायता</span>
+                    <span class="lang-check-badge">✓ चयनित (Selected)</span>
+                </button>
+                <!-- English Card -->
+                <button type="button" class="lang-choice-card" data-lang="en" id="chooseLangEn">
+                    <span class="lang-flag">🌐</span>
+                    <strong class="lang-name">English</strong>
+                    <span class="lang-desc">All citizen services, certificates, application tracking and helpdesk</span>
+                    <span class="lang-check-badge">✓ Selected</span>
+                </button>
+            </div>
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+            <button type="button" class="btn btn-primary w-100" id="confirmLangBtn" style="padding: 13px;">
+                <span>पुष्टि करें एवं आगे बढ़ें / Confirm & Continue →</span>
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Service Details Drawer / Dialog -->
@@ -194,7 +234,7 @@ if (!defined('ABSPATH')) exit;
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="modalCloseBtn2">वापस जाएं</button>
-            <button type="button" class="btn btn-primary" id="modalApplyBtn">इस सेवा के लिए आवेदन करें</button>
+            <a href="#" class="btn btn-primary" id="modalApplyBtn">इस सेवा के लिए आवेदन करें</a>
         </div>
     </div>
 </div>
@@ -216,7 +256,7 @@ if (!defined('ABSPATH')) exit;
                 <div class="receipt-top-info">
                     <div class="receipt-gov-header">
                         <span class="receipt-org">जन सेवा केंद्र (Common Service Center)</span>
-                        <span class="receipt-code">सीएससी आईडी: CSC-UP-984210</span>
+                        <span class="receipt-code">सीएससी आईडी: <?php echo esc_html(jsk_opt('csc_id')); ?></span>
                     </div>
                     <div class="ref-highlight-box">
                         <span class="ref-title">आपका ट्रैकिंग संदर्भ नंबर (Tracking ID):</span>

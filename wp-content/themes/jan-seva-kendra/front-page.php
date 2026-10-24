@@ -24,12 +24,11 @@ $citizen_img = JSK_THEME_URI . '/assets/images/citizen-success.jpg';
                 <span class="badge-dot"></span>
                 <span>डिजिटल भारत • अधिकृत जन सेवा केंद्र (CSC Portal)</span>
             </div>
-            <h1 class="hero-title">
-                घर बैठे या केंद्र पर आकर पाएं <br>
-                <span class="text-gradient">100+ सरकारी एवं नागरिक सेवाएं</span>
+            <h1 class="hero-title lang-text" data-hi="<?php echo esc_attr(jsk_opt('hero_title_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('hero_title_en')); ?>">
+                <?php echo wp_kses_post(jsk_opt('hero_title_hi')); ?>
             </h1>
-            <p class="hero-lead">
-                आधार कार्ड, पैन कार्ड, आय/जाति/निवास प्रमाण पत्र, राशन कार्ड, पेंशन, बैंकिंग एवं सभी सरकारी योजनाओं का त्वरित, पारदर्शी और अधिकृत लाभ। 
+            <p class="hero-lead lang-text" data-hi="<?php echo esc_attr(jsk_opt('hero_lead_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('hero_lead_en')); ?>">
+                <?php echo esc_html(jsk_opt('hero_lead_hi')); ?>
             </p>
 
             <!-- Hero Live Search Bar -->
@@ -60,13 +59,13 @@ $citizen_img = JSK_THEME_URI . '/assets/images/citizen-success.jpg';
 
             <!-- Hero Action Buttons -->
             <div class="hero-cta-group">
-                <a href="#apply-form-section" class="btn btn-hero-primary">
+                <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-hero-primary">
                     <span class="icon"><?php echo jsk_get_svg_icon('file-text'); ?></span>
-                    <span>ऑनलाइन सेवा आवेदन करें</span>
+                    <span class="lang-text" data-hi="ऑनलाइन सेवा आवेदन करें" data-en="Apply Online Now">ऑनलाइन सेवा आवेदन करें</span>
                 </a>
-                <a href="#track-section" class="btn btn-hero-secondary">
+                <a href="<?php echo esc_url(home_url('/track/')); ?>" class="btn btn-hero-secondary">
                     <span class="icon"><?php echo jsk_get_svg_icon('clock'); ?></span>
-                    <span>आवेदन स्थिति जांचें (Track)</span>
+                    <span class="lang-text" data-hi="आवेदन स्थिति जांचें (Track)" data-en="Track Application Status">आवेदन स्थिति जांचें (Track)</span>
                 </a>
             </div>
 
@@ -101,7 +100,7 @@ $citizen_img = JSK_THEME_URI . '/assets/images/citizen-success.jpg';
                 <div class="glass-card card-stat-1">
                     <div class="glass-stat-icon"><?php echo jsk_get_svg_icon('user-check'); ?></div>
                     <div>
-                        <strong class="stat-number">50,000+</strong>
+                        <strong class="stat-number"><?php echo esc_html(jsk_opt('stat_citizens')); ?></strong>
                         <span class="stat-text">संतुष्ट स्थानीय नागरिक</span>
                     </div>
                 </div>
@@ -116,7 +115,7 @@ $citizen_img = JSK_THEME_URI . '/assets/images/citizen-success.jpg';
                     <div class="glass-stat-icon text-orange"><?php echo jsk_get_svg_icon('shield-check'); ?></div>
                     <div>
                         <strong class="stat-title">सीएससी अधिकृत केंद्र</strong>
-                        <span class="stat-text">आईडी: CSC-UP-984210</span>
+                        <span class="stat-text">आईडी: <?php echo esc_html(jsk_opt('csc_id')); ?></span>
                     </div>
                 </div>
             </div>
@@ -132,15 +131,15 @@ $citizen_img = JSK_THEME_URI . '/assets/images/citizen-success.jpg';
             <span class="stat-label">सक्रिय डिजिटल सेवाएं</span>
         </div>
         <div class="stat-box">
-            <span class="stat-digit">3 से 5 दिन</span>
+            <span class="stat-digit"><?php echo esc_html(jsk_opt('stat_tat')); ?></span>
             <span class="stat-label">औसत प्रमाण पत्र निस्तारण</span>
         </div>
         <div class="stat-box">
-            <span class="stat-digit">₹0</span>
+            <span class="stat-digit"><?php echo esc_html(jsk_opt('stat_fee')); ?></span>
             <span class="stat-label">शून्य अतिरिक्त गुप्त शुल्क</span>
         </div>
         <div class="stat-box">
-            <span class="stat-digit">12 घंटे</span>
+            <span class="stat-digit"><?php echo esc_html(jsk_opt('stat_hours')); ?></span>
             <span class="stat-label">प्रतिदिन केंद्र सेवा समय</span>
         </div>
     </div>

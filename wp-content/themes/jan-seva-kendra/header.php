@@ -27,18 +27,29 @@ if (!defined('ABSPATH')) exit;
                     <span class="flag-white"></span>
                     <span class="flag-green"></span>
                 </span>
-                <span class="portal-badge">डिजिटल भारत (Digital India) अधिकृत नागरिक सुविधा केंद्र</span>
-                <span class="vle-info">सीएससी आईडी: <strong>CSC-UP-984210</strong></span>
+                <span class="portal-badge lang-text" data-hi="डिजिटल भारत (Digital India) अधिकृत नागरिक सुविधा केंद्र" data-en="Digital India Authorized Citizen Service Center">
+                    डिजिटल भारत (Digital India) अधिकृत नागरिक सुविधा केंद्र
+                </span>
+                <span class="vle-info">सीएससी आईडी: <strong><?php echo esc_html(jsk_opt('csc_id')); ?></strong></span>
             </div>
             <div class="top-bar-right">
-                <a href="tel:180030003468" class="top-link">
+                <a href="tel:<?php echo esc_attr(jsk_opt('tollfree')); ?>" class="top-link">
                     <span class="icon"><?php echo jsk_get_svg_icon('phone'); ?></span>
-                    <span>टोल-फ्री: 1800-3000-3468</span>
+                    <span>टोल-फ्री: <?php echo esc_html(jsk_opt('tollfree')); ?></span>
                 </a>
                 <span class="timing-badge">
                     <span class="icon"><?php echo jsk_get_svg_icon('clock'); ?></span>
-                    <span>सोम - शनि: प्रातः 8:00 से सायं 8:00</span>
+                    <span class="lang-text" data-hi="<?php echo esc_attr(jsk_opt('timings_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('timings_en')); ?>">
+                        <?php echo esc_html(jsk_opt('timings_hi')); ?>
+                    </span>
                 </span>
+
+                <!-- Language Switcher in Top Bar -->
+                <button type="button" class="btn-lang-top" id="topLangBtn" aria-label="भाषा चुनें / Select Language">
+                    <span>🌐</span>
+                    <strong id="topLangLabel">हिंदी</strong>
+                    <span class="lang-chevron">▼</span>
+                </button>
             </div>
         </div>
     </div>
@@ -58,30 +69,59 @@ if (!defined('ABSPATH')) exit;
                     </svg>
                 </div>
                 <div class="brand-text">
-                    <span class="brand-title">जन सेवा केंद्र</span>
-                    <span class="brand-subtitle">डिजिटल नागरिक एवं ई-डिस्ट्रिक्ट सेवा पोर्टल</span>
+                    <span class="brand-title lang-text" data-hi="<?php echo esc_attr(jsk_opt('portal_name_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('portal_name_en')); ?>">
+                        <?php echo esc_html(jsk_opt('portal_name_hi')); ?>
+                    </span>
+                    <span class="brand-subtitle lang-text" data-hi="<?php echo esc_attr(jsk_opt('portal_sub_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('portal_sub_en')); ?>">
+                        <?php echo esc_html(jsk_opt('portal_sub_hi')); ?>
+                    </span>
                 </div>
             </a>
 
-            <!-- Desktop Nav Links -->
+            <!-- Desktop Nav Links (Multi-Page Navigation) -->
             <ul class="nav-links">
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#services" class="nav-link">सभी सेवाएं</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#apply-form-section" class="nav-link">ऑनलाइन आवेदन</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#track-section" class="nav-link">स्थिति जांचें</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#fee-chart" class="nav-link">शुल्क सूची</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#documents-guide" class="nav-link">दस्तावेज</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#contact-center" class="nav-link">हमारा केंद्र</a></li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-link lang-text" data-hi="होम" data-en="Home">होम</a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/services/')); ?>" class="nav-link lang-text" data-hi="नागरिक सेवाएं" data-en="Services">नागरिक सेवाएं</a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="nav-link lang-text" data-hi="ऑनलाइन आवेदन" data-en="Apply Online">ऑनलाइन आवेदन</a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/track/')); ?>" class="nav-link lang-text" data-hi="स्थिति जांचें" data-en="Track Status">स्थिति जांचें</a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/fees/')); ?>" class="nav-link lang-text" data-hi="शुल्क सूची" data-en="Fee Chart">शुल्क सूची</a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/documents/')); ?>" class="nav-link lang-text" data-hi="दस्तावेज" data-en="Documents">दस्तावेज</a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/about/')); ?>" class="nav-link lang-text" data-hi="हमारा केंद्र" data-en="About Us">हमारा केंद्र</a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="nav-link lang-text" data-hi="संपर्क" data-en="Contact">संपर्क</a>
+                </li>
             </ul>
 
             <!-- Header Quick Actions -->
             <div class="header-actions">
-                <a href="#track-section" class="btn btn-outline-nav">
+                <!-- Nav Language Switcher Button -->
+                <button type="button" class="btn btn-lang-nav" id="navLangBtn" aria-label="भाषा चुनें / Choose Language">
+                    <span>🌐</span>
+                    <strong id="navLangLabel">हिंदी</strong>
+                    <span class="lang-chevron">▼</span>
+                </button>
+
+                <a href="<?php echo esc_url(home_url('/track/')); ?>" class="btn btn-outline-nav">
                     <span class="icon"><?php echo jsk_get_svg_icon('clock'); ?></span>
-                    <span>स्थिति जांचें</span>
+                    <span class="lang-text" data-hi="स्थिति जांचें" data-en="Track Status">स्थिति जांचें</span>
                 </a>
-                <a href="#apply-form-section" class="btn btn-primary-nav">
+                <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-nav">
                     <span class="icon"><?php echo jsk_get_svg_icon('file-text'); ?></span>
-                    <span>नया आवेदन करें</span>
+                    <span class="lang-text" data-hi="आवेदन करें" data-en="Apply Now">आवेदन करें</span>
                 </a>
                 <button class="mobile-toggle" id="mobileMenuBtn" aria-label="मेनू खोलें" aria-expanded="false">
                     <span class="hamburger-bar"></span>
@@ -94,20 +134,28 @@ if (!defined('ABSPATH')) exit;
         <!-- Mobile Drawer Menu -->
         <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
             <div class="drawer-header">
-                <span class="drawer-title">जन सेवा केंद्र मेनू</span>
+                <span class="drawer-title lang-text" data-hi="जन सेवा केंद्र मेनू" data-en="Jan Seva Kendra Menu">जन सेवा केंद्र मेनू</span>
                 <button class="drawer-close" id="drawerCloseBtn" aria-label="बंद करें">&times;</button>
             </div>
+            <div class="drawer-lang-strip">
+                <span>भाषा / Language:</span>
+                <button type="button" class="drawer-lang-btn" id="drawerLangBtn">
+                    <span>🌐</span> <strong id="drawerLangLabel">हिंदी</strong> (बदलें)
+                </button>
+            </div>
             <ul class="mobile-nav-list">
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#services" class="mobile-nav-link">सभी नागरिक सेवाएं</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#apply-form-section" class="mobile-nav-link">ऑनलाइन सेवा आवेदन</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#track-section" class="mobile-nav-link">आवेदन स्थिति ट्रैक करें</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#fee-chart" class="mobile-nav-link">सरकारी व केंद्र शुल्क दर सूची</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#documents-guide" class="mobile-nav-link">जरूरी दस्तावेज सूची</a></li>
-                <li><a href="<?php echo esc_url(home_url('/')); ?>#center-info" class="mobile-nav-link">केंद्र का पता व संचालक</a></li>
+                <li><a href="<?php echo esc_url(home_url('/')); ?>" class="mobile-nav-link lang-text" data-hi="मुख्य पृष्ठ (Home)" data-en="Home">मुख्य पृष्ठ (Home)</a></li>
+                <li><a href="<?php echo esc_url(home_url('/services/')); ?>" class="mobile-nav-link lang-text" data-hi="सभी नागरिक सेवाएं" data-en="All Citizen Services">सभी नागरिक सेवाएं</a></li>
+                <li><a href="<?php echo esc_url(home_url('/apply/')); ?>" class="mobile-nav-link lang-text" data-hi="ऑनलाइन सेवा आवेदन" data-en="Online Application">ऑनलाइन सेवा आवेदन</a></li>
+                <li><a href="<?php echo esc_url(home_url('/track/')); ?>" class="mobile-nav-link lang-text" data-hi="आवेदन स्थिति ट्रैक करें" data-en="Track Application Status">आवेदन स्थिति ट्रैक करें</a></li>
+                <li><a href="<?php echo esc_url(home_url('/fees/')); ?>" class="mobile-nav-link lang-text" data-hi="सरकारी व केंद्र शुल्क दर सूची" data-en="Service Fee Rate Chart">सरकारी व केंद्र शुल्क दर सूची</a></li>
+                <li><a href="<?php echo esc_url(home_url('/documents/')); ?>" class="mobile-nav-link lang-text" data-hi="जरूरी दस्तावेज सूची" data-en="Required Documents Guide">जरूरी दस्तावेज सूची</a></li>
+                <li><a href="<?php echo esc_url(home_url('/about/')); ?>" class="mobile-nav-link lang-text" data-hi="हमारे केंद्र के बारे में" data-en="About Our Center">हमारे केंद्र के बारे में</a></li>
+                <li><a href="<?php echo esc_url(home_url('/contact/')); ?>" class="mobile-nav-link lang-text" data-hi="केंद्र का पता व संपर्क" data-en="Contact & Helpdesk">केंद्र का पता व संपर्क</a></li>
             </ul>
             <div class="drawer-footer">
-                <a href="#apply-form-section" class="btn btn-primary w-100 mb-2">तुरंत आवेदन करें</a>
-                <a href="https://wa.me/919876543210?text=नमस्ते,%20मुझे%20जन%20सेवा%20केंद्र%20की%20सेवाओं%20के%20बारे%20में%20जानकारी%20चाहिए" class="btn btn-whatsapp w-100" target="_blank" rel="noopener">व्हाट्सएप सहायता</a>
+                <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary w-100 mb-2">तुरंत आवेदन करें</a>
+                <a href="https://wa.me/<?php echo esc_attr(jsk_opt('whatsapp')); ?>?text=नमस्ते,%20मुझे%20जन%20सेवा%20केंद्र%20की%20सेवाओं%20के%20बारे%20में%20जानकारी%20चाहिए" class="btn btn-whatsapp w-100" target="_blank" rel="noopener">व्हाट्सएप सहायता</a>
             </div>
         </div>
     </nav>
@@ -117,10 +165,12 @@ if (!defined('ABSPATH')) exit;
         <div class="container ticker-container">
             <div class="ticker-label">
                 <span class="ticker-pulse"></span>
-                <span>ताज़ा अपडेट</span>
+                <span class="lang-text" data-hi="ताज़ा अपडेट" data-en="Live Updates">ताज़ा अपडेट</span>
             </div>
             <div class="ticker-content" id="tickerText">
-                <span>आय, जाति एवं निवास प्रमाण पत्र 3 से 5 दिनों में तैयार। • पीएम किसान सम्मान निधि ई-केवाईसी एवं 18वीं किस्त स्टेटस जांच उपलब्ध। • खोया हुआ आधार/पैन कार्ड तुरंत पुनः प्राप्त करें। • आयुष्मान भारत कार्ड से प्रतिवर्ष ₹5 लाख तक का मुफ्त इलाज।</span>
+                <span class="lang-text" data-hi="<?php echo esc_attr(jsk_opt('ticker_hi')); ?>" data-en="<?php echo esc_attr(jsk_opt('ticker_en')); ?>">
+                    <?php echo esc_html(jsk_opt('ticker_hi')); ?>
+                </span>
             </div>
         </div>
     </div>

@@ -1,0 +1,177 @@
+<?php
+/**
+ * Template Name: नागरिक सेवाएं (Services Page)
+ */
+if (!defined('ABSPATH')) exit;
+
+get_header();
+
+$services = jsk_fetch_and_format_services();
+?>
+
+<!-- Page Header Banner -->
+<div class="page-hero-banner">
+    <div class="container">
+        <div class="breadcrumbs-nav">
+            <a href="<?php echo esc_url(home_url('/')); ?>">मुख्य पृष्ठ</a> &raquo; 
+            <span>नागरिक सेवाएं</span>
+        </div>
+        <div class="section-badge-pill pill-light">100+ अधिकृत सेवाएं</div>
+        <h1 class="page-banner-title">
+            <span class="lang-text" data-hi="सभी नागरिक एवं सरकारी सेवाएं" data-en="All Citizen & Government Services">सभी नागरिक एवं सरकारी सेवाएं</span>
+        </h1>
+        <p class="page-banner-subtitle">
+            <span class="lang-text" data-hi="पहचान पत्र, प्रमाण पत्र, सरकारी योजनाएं, बैंकिंग, बिल भुगतान एवं ऑनलाइन फॉर्म की आधिकारिक सूची" data-en="Official directory of identity cards, certificates, government schemes, banking, utility bills and online applications">
+                पहचान पत्र, प्रमाण पत्र, सरकारी योजनाएं, बैंकिंग, बिल भुगतान एवं ऑनलाइन फॉर्म की आधिकारिक सूची
+            </span>
+        </p>
+
+        <!-- Live Search in Banner -->
+        <div class="banner-search-box">
+            <div class="search-input-wrapper">
+                <span class="search-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </span>
+                <input 
+                    type="search" 
+                    id="heroSearchInput" 
+                    class="search-input" 
+                    placeholder="सेवा खोजें (उदा. आधार, पैन कार्ड, आय प्रमाण पत्र, पेंशन, बिजली बिल)..."
+                    autocomplete="off"
+                >
+                <button type="button" class="search-clear-btn" id="searchClearBtn">&times;</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Services Listing -->
+<section class="services-section" id="services">
+    <div class="container">
+        <!-- Category Filter Tabs -->
+        <div class="category-tabs-wrapper">
+            <div class="category-tabs" role="tablist">
+                <button type="button" class="tab-btn active" data-filter="all">
+                    <span>सभी सेवाएं (All)</span>
+                </button>
+                <button type="button" class="tab-btn" data-filter="identity">
+                    <span>पहचान व दस्तावेज</span>
+                </button>
+                <button type="button" class="tab-btn" data-filter="certificate">
+                    <span>आय, जाति व निवास</span>
+                </button>
+                <button type="button" class="tab-btn" data-filter="schemes">
+                    <span>सरकारी योजनाएं व पेंशन</span>
+                </button>
+                <button type="button" class="tab-btn" data-filter="banking">
+                    <span>बैंकिंग व बीमा (AEPS)</span>
+                </button>
+                <button type="button" class="tab-btn" data-filter="utility">
+                    <span>बिल व रिचार्ज</span>
+                </button>
+                <button type="button" class="tab-btn" data-filter="education">
+                    <span>शिक्षा व भर्ती फॉर्म</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="services-status-bar">
+            <span id="serviceResultsCount">कुल <strong><?php echo count($services); ?></strong> सेवाएं उपलब्ध हैं</span>
+            <span class="filter-hint">विवरण देखने के लिए किसी भी सेवा पर क्लिक करें</span>
+        </div>
+
+        <!-- Services Cards Grid -->
+        <div class="services-grid" id="servicesGrid">
+            <?php if (!empty($services)): ?>
+                <?php foreach ($services as $srv): ?>
+                    <article 
+                        class="service-card" 
+                        data-category="<?php echo esc_attr($srv['category']); ?>"
+                        data-title="<?php echo esc_attr(mb_strtolower($srv['title'])); ?>"
+                        data-docs="<?php echo esc_attr(mb_strtolower($srv['documents'])); ?>"
+                        data-desc="<?php echo esc_attr(mb_strtolower($srv['excerpt'])); ?>"
+                    >
+                        <div class="card-header-row">
+                            <span class="service-cat-pill"><?php echo esc_html($srv['cat_name']); ?></span>
+                            <?php if (!empty($srv['badge'])): ?>
+                                <span class="service-badge-pill"><?php echo esc_html($srv['badge']); ?></span>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="card-icon-title">
+                            <div class="service-icon-box" aria-hidden="true">
+                                <?php echo jsk_get_svg_icon($srv['icon']); ?>
+                            </div>
+                            <h3 class="service-title"><?php echo esc_html($srv['title']); ?></h3>
+                        </div>
+
+                        <p class="service-desc"><?php echo esc_html($srv['excerpt']); ?></p>
+
+                        <div class="service-meta-box">
+                            <div class="meta-item">
+                                <span class="meta-label">शुल्क:</span>
+                                <strong class="meta-value text-primary"><?php echo esc_html($srv['fee']); ?></strong>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">समय:</span>
+                                <strong class="meta-value"><?php echo esc_html($srv['time']); ?></strong>
+                            </div>
+                        </div>
+
+                        <div class="service-docs-preview">
+                            <span class="docs-icon"><?php echo jsk_get_svg_icon('check-circle'); ?></span>
+                            <span class="docs-text"><strong>दस्तावेज:</strong> <?php echo esc_html($srv['documents']); ?></span>
+                        </div>
+
+                        <div class="service-card-actions">
+                            <button 
+                                type="button" 
+                                class="btn btn-card-details" 
+                                data-service-id="<?php echo esc_attr($srv['id']); ?>"
+                                data-title="<?php echo esc_attr($srv['title']); ?>"
+                                data-fee="<?php echo esc_attr($srv['fee']); ?>"
+                                data-time="<?php echo esc_attr($srv['time']); ?>"
+                                data-docs="<?php echo esc_attr($srv['documents']); ?>"
+                                data-desc="<?php echo esc_attr($srv['excerpt']); ?>"
+                                data-badge="<?php echo esc_attr($srv['badge']); ?>"
+                            >
+                                <span>विवरण</span>
+                            </button>
+                            <a 
+                                href="<?php echo esc_url(home_url('/apply/')); ?>?service_id=<?php echo esc_attr($srv['id']); ?>" 
+                                class="btn btn-card-apply"
+                            >
+                                <span>आवेदन करें</span>
+                                <span class="btn-arrow">→</span>
+                            </a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="no-search-results" id="noSearchResults" style="display: none;">
+            <div class="empty-icon"><?php echo jsk_get_svg_icon('file-text'); ?></div>
+            <h3>आपकी खोज से संबंधित कोई सेवा नहीं मिली</h3>
+            <p>कृपया अन्य शब्द खोजें या नीचे दिए गए नंबर पर सीधे संपर्क करें।</p>
+            <button type="button" class="btn btn-secondary mt-3" id="resetSearchBtn">सभी सेवाएं देखें</button>
+        </div>
+    </div>
+</section>
+
+<!-- Bottom Guidance Callout -->
+<section class="container mb-5">
+    <div class="guidance-callout-card">
+        <div class="callout-icon"><?php echo jsk_get_svg_icon('shield-check'); ?></div>
+        <div class="callout-content">
+            <h3>क्या आपको किसी अन्य सेवा की आवश्यकता है?</h3>
+            <p>यदि आपकी वांछित सेवा ऊपर सूची में नहीं दिख रही है, तो आप सीधे हमारे ऑपरेटर से संपर्क कर सकते हैं। केंद्र पर 100+ अतिरिक्त सरकारी पोर्टल सेवाएं उपलब्ध हैं।</p>
+            <div class="callout-actions">
+                <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary">ऑनलाइन आवेदन फॉर्म</a>
+                <a href="https://wa.me/<?php echo esc_attr(jsk_opt('whatsapp')); ?>?text=नमस्ते" target="_blank" rel="noopener" class="btn btn-whatsapp">व्हाट्सएप सहायता</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php get_footer(); ?>

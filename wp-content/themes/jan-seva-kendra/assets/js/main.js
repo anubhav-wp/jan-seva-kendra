@@ -570,4 +570,155 @@ document.addEventListener('DOMContentLoaded', () => {
         if (spinner) spinner.style.display = isLoading ? 'inline-block' : 'none';
         if (textSpan) textSpan.textContent = text;
     }
+
+    /* ==========================================================================
+       9. LANGUAGE PREFERENCE & FIRST-VISIT POPUP MODAL
+       ========================================================================== */
+    const languageModal = document.getElementById('languageModal');
+    const langModalBackdrop = document.getElementById('langModalBackdrop');
+    const chooseLangHi = document.getElementById('chooseLangHi');
+    const chooseLangEn = document.getElementById('chooseLangEn');
+    const confirmLangBtn = document.getElementById('confirmLangBtn');
+    const topLangBtn = document.getElementById('topLangBtn');
+    const navLangBtn = document.getElementById('navLangBtn');
+    const drawerLangBtn = document.getElementById('drawerLangBtn');
+    const topLangLabel = document.getElementById('topLangLabel');
+    const navLangLabel = document.getElementById('navLangLabel');
+    const drawerLangLabel = document.getElementById('drawerLangLabel');
+
+    let selectedLang = localStorage.getItem('jsk_user_lang') || 'hi';
+
+    function applyLanguage(lang) {
+        selectedLang = lang;
+        localStorage.setItem('jsk_user_lang', lang);
+
+        document.documentElement.lang = lang;
+        document.body.classList.remove('lang-hi', 'lang-en');
+        document.body.classList.add(`lang-${lang}`);
+
+        const labelText = (lang === 'en') ? 'English' : 'हिंदी';
+        if (topLangLabel) topLangLabel.textContent = labelText;
+        if (navLangLabel) navLangLabel.textContent = labelText;
+        if (drawerLangLabel) drawerLangLabel.textContent = labelText;
+
+        // Update cards in language modal
+        if (chooseLangHi && chooseLangEn) {
+            if (lang === 'hi') {
+                chooseLangHi.classList.add('active');
+                chooseLangEn.classList.remove('active');
+            } else {
+                chooseLangEn.classList.add('active');
+                chooseLangHi.classList.remove('active');
+            }
+        }
+
+        // Dynamically update all elements with .lang-text
+        document.querySelectorAll('.lang-text').forEach(el => {
+            const translated = el.getAttribute(`data-${lang}`);
+            if (translated) {
+                el.textContent = translated;
+            }
+        });
+    }
+
+    function openLanguageModal() {
+        if (!languageModal) return;
+        languageModal.classList.add('show');
+        languageModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLanguageModal() {
+        if (!languageModal) return;
+        languageModal.classList.remove('show');
+        languageModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    // Modal card selection
+    if (chooseLangHi) {
+        chooseLangHi.addEventListener('click', () => {
+            selectedLang = 'hi';
+            chooseLangHi.classList.add('active');
+            if (chooseLangEn) chooseLangEn.classList.remove('active');
+        });
+    }
+
+    if (chooseLangEn) {
+        chooseLangEn.addEventListener('click', () => {
+            selectedLang = 'en';
+            chooseLangEn.classList.add('active');
+            if (chooseLangHi) chooseLangHi.classList.remove('active');
+        });
+    }
+
+    if (confirmLangBtn) {
+        confirmLangBtn.addEventListener('click', () => {
+            applyLanguage(selectedLang);
+            closeLanguageModal();
+        });
+    }
+
+    // Open modal via buttons
+    if (topLangBtn) topLangBtn.addEventListener('click', openLanguageModal);
+    if (navLangBtn) navLangBtn.addEventListener('click', openLanguageModal);
+    if (drawerLangBtn) drawerLangBtn.addEventListener('click', openLanguageModal);
+
+    if (langModalBackdrop) {
+        langModalBackdrop.addEventListener('click', () => {
+            // Allow closing by clicking backdrop if user has already set a language
+            if (localStorage.getItem('jsk_user_lang')) {
+                closeLanguageModal();
+            }
+        });
+    }
+
+    // First-visit check: Prompt user to choose language if not set
+    const userLangStored = localStorage.getItem('jsk_user_lang');
+    if (!userLangStored) {
+        setTimeout(() => {
+            openLanguageModal();
+        }, 350);
+    } else {
+        applyLanguage(userLangStored);
+    }
+
+    /* ==========================================================================
+       10. CONTACT / INQUIRY CALLBACK FORM HANDLER
+       ========================================================================== */
+    const contactInquiryForm = document.getElementById('contactInquiryForm');
+    const inqAlert = document.getElementById('inqAlert');
+
+    if (contactInquiryForm) {
+        contactInquiryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = (document.getElementById('inqName') ? document.getElementById('inqName').value : '').trim();
+            const mobile = (document.getElementById('inqMobile') ? document.getElementById('inqMobile').value : '').trim();
+            const service = (document.getElementById('inqService') ? document.getElementById('inqService').value : '').trim();
+            const msg = (document.getElementById('inqMessage') ? document.getElementById('inqMessage').value : '').trim();
+
+            if (!name || name.length < 3) {
+                showAlert(inqAlert, 'कृपया अपना पूरा नाम सही दर्ज करें।', 'alert-error');
+                return;
+            }
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+                showAlert(inqAlert, 'कृपया 10 अंकों का वैध भारतीय मोबाइल नंबर दर्ज करें।', 'alert-error');
+                return;
+            }
+
+            const successMsg = `धन्यवाद ${name}! आपका संदेश जन सेवा केंद्र को प्राप्त हो गया है। हमारा प्रतिनिधि 30 मिनट में मोबाइल नंबर ${mobile} पर संपर्क करेगा।`;
+            showAlert(inqAlert, successMsg, 'alert-success');
+            contactInquiryForm.reset();
+
+            // WhatsApp direct fallback link if user wants instant reply
+            const whatsappText = encodeURIComponent(`नमस्ते जन सेवा केंद्र,\nमेरा नाम: ${name}\nमोबाइल: ${mobile}\nसेवा पूछताछ: ${service || 'सामान्य जानकारी'}\nसंदेश: ${msg || 'कृपया मुझसे संपर्क करें'}`);
+            setTimeout(() => {
+                if (confirm('क्या आप यह संदेश सीधे संचालक के व्हाट्सएप पर भी भेजना चाहते हैं?')) {
+                    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${whatsappText}`, '_blank');
+                }
+            }, 600);
+        });
+    }
 });
+

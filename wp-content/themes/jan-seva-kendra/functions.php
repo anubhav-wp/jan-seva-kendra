@@ -976,3 +976,302 @@ add_action('save_post', function($post_id) {
         delete_transient('jsk_all_services_cache');
     }
 });
+
+/* ==========================================================================
+   8. THEME OPTIONS & ADMIN MANAGEMENT (100% Native, Zero Plugins)
+   ========================================================================== */
+
+/**
+ * Get Jan Seva Kendra option with fallback
+ */
+function jsk_opt($key, $default = '') {
+    $options = get_option('jsk_theme_options');
+    if (is_array($options) && isset($options[$key]) && '' !== $options[$key]) {
+        return $options[$key];
+    }
+
+    $defaults = [
+        'portal_name_hi'  => 'जन सेवा केंद्र',
+        'portal_name_en'  => 'Jan Seva Kendra',
+        'portal_sub_hi'   => 'डिजिटल नागरिक एवं ई-डिस्ट्रिक्ट सेवा पोर्टल',
+        'portal_sub_en'   => 'Digital Citizen & E-Governance Services Portal',
+        'vle_name'        => 'राजेश कुमार शर्मा',
+        'csc_id'          => 'CSC-UP-984210',
+        'phone'           => '+91 98765 43210',
+        'tollfree'        => '1800-3000-3468',
+        'whatsapp'        => '919876543210',
+        'email'           => 'csc.jansevakendra@gmail.com',
+        'address_hi'      => 'दुकान नं. 4, मुख्य बाजार, तहसील रोड, पोस्ट ऑफिस के सामने, जिला केंद्र',
+        'address_en'      => 'Shop No. 4, Main Market, Tehsil Road, Opposite Post Office, District Center',
+        'timings_hi'      => 'सोमवार से शनिवार: प्रातः 8:00 से सायं 8:00 बजे तक (रविवार: प्रातः 9:00 से दोपहर 2:00)',
+        'timings_en'      => 'Monday to Saturday: 8:00 AM - 8:00 PM (Sunday: 9:00 AM - 2:00 PM)',
+        'ticker_hi'       => 'आय, जाति एवं निवास प्रमाण पत्र 3 से 5 दिनों में तैयार। • पीएम किसान सम्मान निधि ई-केवाईसी एवं 18वीं किस्त स्टेटस जांच उपलब्ध। • खोया हुआ आधार/पैन कार्ड तुरंत पुनः प्राप्त करें। • आयुष्मान भारत कार्ड से प्रतिवर्ष ₹5 लाख तक का मुफ्त इलाज।',
+        'ticker_en'       => 'Income, Caste and Domicile certificates ready in 3 to 5 days. • PM-Kisan e-KYC and 18th installment status available. • Ayushman Bharat ₹5 Lakh Free Treatment Golden Card.',
+        'hero_title_hi'   => 'घर बैठे या केंद्र पर आकर पाएं <br><span class="text-gradient">100+ सरकारी एवं नागरिक सेवाएं</span>',
+        'hero_title_en'   => 'Avail at home or visit center for <br><span class="text-gradient">100+ Govt & Citizen Services</span>',
+        'hero_lead_hi'    => 'आधार कार्ड, पैन कार्ड, आय/जाति/निवास प्रमाण पत्र, राशन कार्ड, पेंशन, बैंकिंग एवं सभी सरकारी योजनाओं का त्वरित, पारदर्शी और अधिकृत लाभ।',
+        'hero_lead_en'    => 'Fast, secure, transparent and authorized access to Aadhaar, PAN Card, Certificates, Ration Card, Social Pension, Banking and all Government Schemes.',
+        'stat_citizens'   => '50,000+',
+        'stat_tat'        => '3 से 5 दिन',
+        'stat_fee'        => '₹0',
+        'stat_hours'      => '12 घंटे',
+        'maps_url'        => 'https://maps.google.com',
+        'footer_about_hi' => 'नागरिकों को सरकारी, वित्तीय, सामाजिक सुरक्षा और शैक्षणिक सेवाओं का समयबद्ध, पारदर्शी और किफायती लाभ प्रदान करने वाला अधिकृत डिजिटल सेवा केंद्र।',
+        'footer_about_en' => 'Authorized Digital Citizen Service Center providing transparent, timely and affordable government, financial and social welfare services to all citizens.',
+        'disclaimer_hi'   => 'अस्वीकरण (Disclaimer): यह जन सेवा केंद्र पोर्टल नागरिकों को सरकारी एवं डिजिटल सेवाओं के आवेदन में सहायता प्रदान करता है। सभी आधिकारिक निर्णय, प्रमाण पत्र जारी करना एवं अनुमोदन संबंधित सरकारी विभागों के अधिकार क्षेत्र में है।',
+        'disclaimer_en'   => 'Disclaimer: This Jan Seva Kendra portal assists citizens with government and digital service applications. All official approvals, issuing of certificates and decisions are under the jurisdiction of respective government departments.',
+    ];
+
+    return $defaults[$key] ?? $default;
+}
+
+// Register Settings
+add_action('admin_init', function() {
+    register_setting('jsk_theme_options_group', 'jsk_theme_options');
+});
+
+// Add Menu Page in WP-Admin
+add_action('admin_menu', function() {
+    add_menu_page(
+        'जन सेवा केंद्र सेटिंग्स',
+        'जन सेवा केंद्र सेटिंग्स',
+        'manage_options',
+        'jsk-settings',
+        'jsk_render_settings_page',
+        'dashicons-admin-site-alt3',
+        3
+    );
+});
+
+/**
+ * Render Theme Settings Page in WP-Admin
+ */
+function jsk_render_settings_page() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    ?>
+    <div class="wrap" style="max-width: 1000px; margin-top: 20px;">
+        <h1 style="display:flex; align-items:center; gap:10px; font-weight:800; color:#0D3B66;">
+            <span class="dashicons dashicons-admin-site-alt3" style="font-size:32px; width:32px; height:32px;"></span>
+            जन सेवा केंद्र पोर्टल सेटिंग्स (Jan Seva Kendra Website Settings)
+        </h1>
+        <p style="color:#64748B; font-size:14px; margin-bottom:20px;">
+            वेबसाइट की सामग्री, केंद्र का विवरण, फोन नंबर, पते, सूचना पट्टी और हीरो टेक्स्ट को यहाँ से प्रबंधित करें (हिंदी एवं अंग्रेजी दोनों समर्थित)।
+        </p>
+
+        <?php settings_errors(); ?>
+
+        <form method="post" action="options.php" style="background:#fff; border:1px solid #ccd0d4; border-radius:10px; padding:24px 30px; box-shadow:0 2px 6px rgba(0,0,0,0.04);">
+            <?php
+            settings_fields('jsk_theme_options_group');
+            ?>
+
+            <h2 style="border-bottom:2px solid #0D3B66; padding-bottom:8px; margin-top:10px; color:#0D3B66;">
+                1. केंद्र एवं संचालक विवरण (Center & Contact Information)
+            </h2>
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th scope="row"><label for="portal_name_hi">पोर्टल का नाम (हिंदी):</label></th>
+                    <td><input type="text" id="portal_name_hi" name="jsk_theme_options[portal_name_hi]" value="<?php echo esc_attr(jsk_opt('portal_name_hi')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="portal_name_en">Portal Name (English):</label></th>
+                    <td><input type="text" id="portal_name_en" name="jsk_theme_options[portal_name_en]" value="<?php echo esc_attr(jsk_opt('portal_name_en')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="portal_sub_hi">टैगलाइन (हिंदी):</label></th>
+                    <td><input type="text" id="portal_sub_hi" name="jsk_theme_options[portal_sub_hi]" value="<?php echo esc_attr(jsk_opt('portal_sub_hi')); ?>" class="large-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="portal_sub_en">Tagline (English):</label></th>
+                    <td><input type="text" id="portal_sub_en" name="jsk_theme_options[portal_sub_en]" value="<?php echo esc_attr(jsk_opt('portal_sub_en')); ?>" class="large-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="vle_name">संचालक का नाम (VLE Name):</label></th>
+                    <td><input type="text" id="vle_name" name="jsk_theme_options[vle_name]" value="<?php echo esc_attr(jsk_opt('vle_name')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="csc_id">सीएससी आईडी (CSC ID):</label></th>
+                    <td><input type="text" id="csc_id" name="jsk_theme_options[csc_id]" value="<?php echo esc_attr(jsk_opt('csc_id')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="phone">हेल्पलाइन मोबाइल नंबर:</label></th>
+                    <td><input type="text" id="phone" name="jsk_theme_options[phone]" value="<?php echo esc_attr(jsk_opt('phone')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="tollfree">टोल-फ्री नंबर:</label></th>
+                    <td><input type="text" id="tollfree" name="jsk_theme_options[tollfree]" value="<?php echo esc_attr(jsk_opt('tollfree')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="whatsapp">व्हाट्सएप नंबर (बिना + या स्पेस):</label></th>
+                    <td><input type="text" id="whatsapp" name="jsk_theme_options[whatsapp]" value="<?php echo esc_attr(jsk_opt('whatsapp')); ?>" class="regular-text"><p class="description">उदा. 919876543210</p></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="email">ईमेल पता (Email):</label></th>
+                    <td><input type="email" id="email" name="jsk_theme_options[email]" value="<?php echo esc_attr(jsk_opt('email')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="address_hi">केंद्र का पता (हिंदी):</label></th>
+                    <td><textarea id="address_hi" name="jsk_theme_options[address_hi]" rows="2" class="large-text"><?php echo esc_textarea(jsk_opt('address_hi')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="address_en">Center Address (English):</label></th>
+                    <td><textarea id="address_en" name="jsk_theme_options[address_en]" rows="2" class="large-text"><?php echo esc_textarea(jsk_opt('address_en')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="timings_hi">कार्य समय (हिंदी):</label></th>
+                    <td><input type="text" id="timings_hi" name="jsk_theme_options[timings_hi]" value="<?php echo esc_attr(jsk_opt('timings_hi')); ?>" class="large-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="timings_en">Working Hours (English):</label></th>
+                    <td><input type="text" id="timings_en" name="jsk_theme_options[timings_en]" value="<?php echo esc_attr(jsk_opt('timings_en')); ?>" class="large-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="maps_url">गूगल मैप्स लिंक (Google Maps URL):</label></th>
+                    <td><input type="url" id="maps_url" name="jsk_theme_options[maps_url]" value="<?php echo esc_attr(jsk_opt('maps_url')); ?>" class="large-text"></td>
+                </tr>
+            </table>
+
+            <h2 style="border-bottom:2px solid #0D3B66; padding-bottom:8px; margin-top:30px; color:#0D3B66;">
+                2. ताज़ा सूचना पट्टी (Announcement Ticker)
+            </h2>
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th scope="row"><label for="ticker_hi">सूचना पट्टी संदेश (हिंदी):</label></th>
+                    <td><textarea id="ticker_hi" name="jsk_theme_options[ticker_hi]" rows="3" class="large-text"><?php echo esc_textarea(jsk_opt('ticker_hi')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="ticker_en">Announcement Ticker (English):</label></th>
+                    <td><textarea id="ticker_en" name="jsk_theme_options[ticker_en]" rows="3" class="large-text"><?php echo esc_textarea(jsk_opt('ticker_en')); ?></textarea></td>
+                </tr>
+            </table>
+
+            <h2 style="border-bottom:2px solid #0D3B66; padding-bottom:8px; margin-top:30px; color:#0D3B66;">
+                3. हीरो एवं सांख्यिकी काउंटर (Hero Section & Stats)
+            </h2>
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th scope="row"><label for="hero_title_hi">हीरो मुख्य शीर्षक (हिंदी):</label></th>
+                    <td><input type="text" id="hero_title_hi" name="jsk_theme_options[hero_title_hi]" value="<?php echo esc_attr(jsk_opt('hero_title_hi')); ?>" class="large-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="hero_title_en">Hero Title (English):</label></th>
+                    <td><input type="text" id="hero_title_en" name="jsk_theme_options[hero_title_en]" value="<?php echo esc_attr(jsk_opt('hero_title_en')); ?>" class="large-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="hero_lead_hi">हीरो उपशीर्षक (हिंदी):</label></th>
+                    <td><textarea id="hero_lead_hi" name="jsk_theme_options[hero_lead_hi]" rows="2" class="large-text"><?php echo esc_textarea(jsk_opt('hero_lead_hi')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="hero_lead_en">Hero Subtitle (English):</label></th>
+                    <td><textarea id="hero_lead_en" name="jsk_theme_options[hero_lead_en]" rows="2" class="large-text"><?php echo esc_textarea(jsk_opt('hero_lead_en')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="stat_citizens">संतुष्ट नागरिक संख्या (उदा. 50,000+):</label></th>
+                    <td><input type="text" id="stat_citizens" name="jsk_theme_options[stat_citizens]" value="<?php echo esc_attr(jsk_opt('stat_citizens')); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="stat_tat">औसत निस्तारण समय (उदा. 3 से 5 दिन):</label></th>
+                    <td><input type="text" id="stat_tat" name="jsk_theme_options[stat_tat]" value="<?php echo esc_attr(jsk_opt('stat_tat')); ?>" class="regular-text"></td>
+                </tr>
+            </table>
+
+            <h2 style="border-bottom:2px solid #0D3B66; padding-bottom:8px; margin-top:30px; color:#0D3B66;">
+                4. फुटर व अस्वीकरण (Footer & Disclaimer)
+            </h2>
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th scope="row"><label for="footer_about_hi">फुटर परिचय टेक्स्ट (हिंदी):</label></th>
+                    <td><textarea id="footer_about_hi" name="jsk_theme_options[footer_about_hi]" rows="3" class="large-text"><?php echo esc_textarea(jsk_opt('footer_about_hi')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="footer_about_en">Footer About Text (English):</label></th>
+                    <td><textarea id="footer_about_en" name="jsk_theme_options[footer_about_en]" rows="3" class="large-text"><?php echo esc_textarea(jsk_opt('footer_about_en')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="disclaimer_hi">सरकारी अस्वीकरण (हिंदी):</label></th>
+                    <td><textarea id="disclaimer_hi" name="jsk_theme_options[disclaimer_hi]" rows="3" class="large-text"><?php echo esc_textarea(jsk_opt('disclaimer_hi')); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="disclaimer_en">Disclaimer Note (English):</label></th>
+                    <td><textarea id="disclaimer_en" name="jsk_theme_options[disclaimer_en]" rows="3" class="large-text"><?php echo esc_textarea(jsk_opt('disclaimer_en')); ?></textarea></td>
+                </tr>
+            </table>
+
+            <?php submit_button('सेटिंग्स सुरक्षित करें (Save All Settings)'); ?>
+        </form>
+    </div>
+    <?php
+}
+
+/* ==========================================================================
+   9. AUTOMATIC MULTI-PAGE CREATION (Dedicated WP Pages)
+   ========================================================================== */
+
+function jsk_setup_default_pages() {
+    $seeded = get_option('jsk_pages_seeded_v1');
+    if ($seeded) {
+        return;
+    }
+
+    $pages = [
+        'services' => [
+            'title'    => 'नागरिक सेवाएं (Citizen Services)',
+            'template' => 'page-services.php',
+            'content'  => 'सभी जन सेवा केंद्र ऑनलाइन नागरिक सेवाओं की आधिकारिक सूची।',
+        ],
+        'apply' => [
+            'title'    => 'ऑनलाइन आवेदन फॉर्म (Apply Online)',
+            'template' => 'page-apply.php',
+            'content'  => 'घर बैठे डिजिटल नागरिक सेवाओं के लिए ऑनलाइन सेवा अनुरोध सबमिट करें।',
+        ],
+        'track' => [
+            'title'    => 'आवेदन स्थिति जांचें (Track Application)',
+            'template' => 'page-track.php',
+            'content'  => 'अपने संदर्भ नंबर (JSK ID) अथवा मोबाइल नंबर से आवेदन की वर्तमान स्थिति जांचें।',
+        ],
+        'fees' => [
+            'title'    => 'सेवा शुल्क दर सूची (Fee Chart)',
+            'template' => 'page-fees.php',
+            'content'  => 'शासन द्वारा निर्धारित सरकारी एवं केंद्र सेवा शुल्क की आधिकारिक दर तालिका।',
+        ],
+        'documents' => [
+            'title'    => 'आवश्यक दस्तावेज चेकलिस्ट (Required Documents)',
+            'template' => 'page-documents.php',
+            'content'  => 'प्रमाण पत्र, पहचान पत्र व योजनाओं के आवेदन से पूर्व जरूरी दस्तावेजों की चेकलिस्ट।',
+        ],
+        'about' => [
+            'title'    => 'हमारे केंद्र के बारे में (About Our Center)',
+            'template' => 'page-about.php',
+            'content'  => 'अधिकृत जन सेवा केंद्र, संचालक विवरण, बुनियादी सुविधाएं एवं सेवाएं।',
+        ],
+        'contact' => [
+            'title'    => 'संपर्क एवं सहायता (Contact & Helpdesk)',
+            'template' => 'page-contact.php',
+            'content'  => 'केंद्र का पता, फोन नंबर, व्हाट्सएप सहायता, कार्य समय एवं गूगल मैप्स मार्ग।',
+        ],
+    ];
+
+    foreach ($pages as $slug => $p) {
+        $existing = get_page_by_path($slug);
+        if (!$existing) {
+            $page_id = wp_insert_post([
+                'post_name'    => $slug,
+                'post_title'   => $p['title'],
+                'post_content' => $p['content'],
+                'post_status'  => 'publish',
+                'post_type'    => 'page',
+            ]);
+
+            if ($page_id && !is_wp_error($page_id)) {
+                update_post_meta($page_id, '_wp_page_template', $p['template']);
+            }
+        } else {
+            update_post_meta($existing->ID, '_wp_page_template', $p['template']);
+        }
+    }
+
+    update_option('jsk_pages_seeded_v1', 1);
+}
+add_action('init', 'jsk_setup_default_pages', 25);

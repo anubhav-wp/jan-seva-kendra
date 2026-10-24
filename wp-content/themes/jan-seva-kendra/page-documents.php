@@ -1,0 +1,150 @@
+<?php
+/**
+ * Template Name: आवश्यक दस्तावेज चेकलिस्ट (Documents Page)
+ */
+if (!defined('ABSPATH')) exit;
+
+get_header();
+?>
+
+<!-- Page Header Banner -->
+<div class="page-hero-banner">
+    <div class="container">
+        <div class="breadcrumbs-nav">
+            <a href="<?php echo esc_url(home_url('/')); ?>">मुख्य पृष्ठ</a> &raquo; 
+            <span>आवश्यक दस्तावेज चेकलिस्ट</span>
+        </div>
+        <div class="section-badge-pill pill-light">सटीक मार्गदर्शन</div>
+        <h1 class="page-banner-title">
+            <span class="lang-text" data-hi="आवेदन से पूर्व आवश्यक दस्तावेज चेकलिस्ट" data-en="Required Documents Checklist Before Applying">आवेदन से पूर्व आवश्यक दस्तावेज चेकलिस्ट</span>
+        </h1>
+        <p class="page-banner-subtitle">
+            <span class="lang-text" data-hi="त्रुटिरहित और पहली बार में ही स्वीकृत होने वाले आवेदन के लिए जरूरी कागजात की संपूर्ण सूची" data-en="Complete list of documents required for error-free and instant application approval">
+                त्रुटिरहित और पहली बार में ही स्वीकृत होने वाले आवेदन के लिए जरूरी कागजात की संपूर्ण सूची
+            </span>
+        </p>
+    </div>
+</div>
+
+<!-- Documents Checklist Section -->
+<section class="docs-guide-section py-5" id="documents-guide">
+    <div class="container">
+        <div class="docs-guide-grid">
+            <!-- 1. Income, Caste, Domicile -->
+            <div class="guide-card">
+                <div class="guide-header">
+                    <span class="guide-badge">ई-डिस्ट्रिक्ट सेवाएं</span>
+                    <h3>आय, जाति एवं निवास प्रमाण पत्र हेतु</h3>
+                </div>
+                <ul class="guide-list">
+                    <li>✓ <strong>आवेदक का आधार कार्ड:</strong> दोनों तरफ की स्पष्ट प्रति।</li>
+                    <li>✓ <strong>स्वप्रमाणित घोषणा पत्र:</strong> केंद्र पर निशुल्क उपलब्ध।</li>
+                    <li>✓ <strong>पासपोर्ट साइज फोटो:</strong> 1 नवीनतम रंगीन फोटो।</li>
+                    <li>✓ <strong>निवास का प्रमाण:</strong> बिजली बिल, राशन कार्ड या वोटर आईडी।</li>
+                    <li>✓ <strong>जाति प्रमाण हेतु:</strong> पिता/परिवार के सदस्य का पुराना जाति प्रमाण पत्र या खतौनी।</li>
+                    <li>✓ <strong>आय प्रमाण हेतु:</strong> वेतन पर्ची, कृषि भूमि रिकॉर्ड या शपथ पत्र।</li>
+                </ul>
+                <div class="guide-card-footer">
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-sm w-100">तुरंत आवेदन करें</a>
+                </div>
+            </div>
+
+            <!-- 2. PAN Card -->
+            <div class="guide-card">
+                <div class="guide-header">
+                    <span class="guide-badge">आयकर विभाग</span>
+                    <h3>नया पैन कार्ड (Form 49A) व सुधार हेतु</h3>
+                </div>
+                <ul class="guide-list">
+                    <li>✓ <strong>पहचान प्रमाण (POI):</strong> आधार कार्ड (सर्वोत्तम) या वोटर आईडी।</li>
+                    <li>✓ <strong>पता प्रमाण (POA):</strong> आधार कार्ड या निवास प्रमाण।</li>
+                    <li>✓ <strong>जन्मतिथि प्रमाण (DOB):</strong> 10वीं अंकपत्र या जन्म प्रमाण पत्र।</li>
+                    <li>✓ <strong>फोटो व हस्ताक्षर:</strong> 2 पासपोर्ट फोटो, सफेद कागज पर हस्ताक्षर।</li>
+                    <li>✓ <strong>सुधार हेतु:</strong> पुराने पैन कार्ड की छायाप्रति।</li>
+                </ul>
+                <div class="guide-card-footer">
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-sm w-100">पैन कार्ड हेतु आवेदन</a>
+                </div>
+            </div>
+
+            <!-- 3. PM Kisan & Schemes -->
+            <div class="guide-card">
+                <div class="guide-header">
+                    <span class="guide-badge">कृषि एवं किसान</span>
+                    <h3>पीएम किसान एवं समाज कल्याण पेंशन</h3>
+                </div>
+                <ul class="guide-list">
+                    <li>✓ <strong>जमीन की खतौनी:</strong> काश्तकार के नाम की प्रमाणित खतौनी नकल।</li>
+                    <li>✓ <strong>बैंक पासबुक:</strong> बैंक खाता आधार एवं एनपीसीआई (NPCI) लिंक हो।</li>
+                    <li>✓ <strong>आधार कार्ड:</strong> आधार में चालू मोबाइल नंबर जुड़ा होना अनिवार्य।</li>
+                    <li>✓ <strong>पेंशन हेतु:</strong> आय प्रमाण पत्र, आयु प्रमाण (60 वर्ष+), दिव्यांगता प्रमाण (यदि लागू)।</li>
+                </ul>
+                <div class="guide-card-footer">
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-sm w-100">योजना फॉर्म भरें</a>
+                </div>
+            </div>
+
+            <!-- 4. Ayushman & Health -->
+            <div class="guide-card">
+                <div class="guide-header">
+                    <span class="guide-badge">स्वास्थ्य सुरक्षा</span>
+                    <h3>आयुष्मान भारत गोल्डन कार्ड (₹5 लाख)</h3>
+                </div>
+                <ul class="guide-list">
+                    <li>✓ <strong>राशन कार्ड:</strong> पात्र गृहस्थी (6 या अधिक सदस्य) अथवा अंत्योदय राशन कार्ड।</li>
+                    <li>✓ <strong>आधार कार्ड:</strong> परिवार के सभी सदस्यों के आधार कार्ड।</li>
+                    <li>✓ <strong>बायोमेट्रिक:</strong> केंद्र पर अंगूठे के निशान द्वारा तत्काल ई-केवाईसी।</li>
+                    <li>✓ <strong>पीवीसी प्रिंट:</strong> तत्काल 10 मिनट में प्लास्टिक कार्ड उपलब्ध।</li>
+                </ul>
+                <div class="guide-card-footer">
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-sm w-100">आयुष्मान जांचें</a>
+                </div>
+            </div>
+
+            <!-- 5. Passport Seva -->
+            <div class="guide-card">
+                <div class="guide-header">
+                    <span class="guide-badge">विदेश मंत्रालय</span>
+                    <h3>पासपोर्ट ऑनलाइन आवेदन (Passport)</h3>
+                </div>
+                <ul class="guide-list">
+                    <li>✓ <strong>जन्मतिथि प्रमाण:</strong> 10वीं अंकपत्र या जन्म प्रमाण पत्र।</li>
+                    <li>✓ <strong>पते का प्रमाण:</strong> आधार कार्ड, बैंक पासबुक (1 वर्ष का स्टेटमेंट)।</li>
+                    <li>✓ <strong>पैन कार्ड एवं वोटर कार्ड:</strong> पहचान सत्यापन हेतु।</li>
+                    <li>✓ <strong>माता-पिता का विवरण:</strong> नाम की स्पेलिंग सभी कागजों में समान होनी चाहिए।</li>
+                </ul>
+                <div class="guide-card-footer">
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-sm w-100">पासपोर्ट आवेदन करें</a>
+                </div>
+            </div>
+
+            <!-- 6. Education & Scholarships -->
+            <div class="guide-card">
+                <div class="guide-header">
+                    <span class="guide-badge">शिक्षा व छात्रवृत्ति</span>
+                    <h3>छात्रवृत्ति एवं सरकारी नौकरी फॉर्म</h3>
+                </div>
+                <ul class="guide-list">
+                    <li>✓ <strong>शैक्षणिक अंकपत्र:</strong> 10वीं, 12वीं, स्नातक की मूल मार्कशीट।</li>
+                    <li>✓ <strong>प्रमाण पत्र:</strong> 3 वर्ष के भीतर का आय, जाति व निवास प्रमाण पत्र।</li>
+                    <li>✓ <strong>फीस रसीद:</strong> स्कूल/कॉलेज में जमा की गई वर्तमान वर्ष की फीस रसीद।</li>
+                    <li>✓ <strong>बैंक खाता:</strong> छात्र के नाम का आधार लिंक बचत खाता।</li>
+                </ul>
+                <div class="guide-card-footer">
+                    <a href="<?php echo esc_url(home_url('/apply/')); ?>" class="btn btn-primary-sm w-100">छात्रवृत्ति फॉर्म भरें</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- DigiLocker Banner -->
+        <div class="digilocker-info-banner mt-5">
+            <div class="digi-icon">📂</div>
+            <div class="digi-text">
+                <h3>डिजिलॉकर (DigiLocker) की सुविधा उपलब्ध</h3>
+                <p>यदि आपके पास दस्तावेजों की भौतिक कॉपी नहीं है, तो आप अपने डिजिलॉकर खाते से सीधे डिजिटल रूप से सत्यापित दस्तावेज भी जमा कर सकते हैं। यह भारत सरकार के आईटी अधिनियम के तहत 100% मान्य है।</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php get_footer(); ?>
