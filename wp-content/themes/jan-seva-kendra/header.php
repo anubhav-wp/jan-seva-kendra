@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) exit;
 <html <?php language_attributes(); ?> dir="ltr">
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta name="description" content="जन सेवा केंद्र ऑनलाइन नागरिक सेवाएं - आधार, पैन कार्ड, आय/जाति/निवास प्रमाण पत्र, राशन कार्ड, पेंशन, बैंकिंग एवं सभी सरकारी योजनाओं के ऑनलाइन आवेदन।">
     <meta name="theme-color" content="#0d3b66">
     <?php wp_head(); ?>
@@ -132,6 +132,7 @@ if (!defined('ABSPATH')) exit;
                 <a href="https://wa.me/<?php echo esc_attr(jsk_opt('whatsapp')); ?>?text=नमस्ते,%20मुझे%20जन%20सेवा%20केंद्र%20की%20सेवाओं%20के%20बारे%20में%20जानकारी%20चाहिए" class="btn btn-whatsapp w-100" target="_blank" rel="noopener">व्हाट्सएप सहायता</a>
             </div>
         </div>
+        <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
     </nav>
 
     <!-- Urgent Citizen Updates Ticker -->
